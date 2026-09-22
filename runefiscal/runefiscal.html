@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNEfiscal | Emissão de CT-e, MDF-e e CIOT Descomplicada</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonte Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Configuração Avançada do Tailwind -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              dark: '#0a1424',
+              base: '#152e50',
+              light: '#2a4a7f',
+              accent: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--scroll-track, #0a1424); }
+    ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #059669; }
+
+    /* Estilos dinâmicos para o Modo Claro no RUNEfiscal */
+    html.light {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+    html.light body {
+      background-color: #f8fafc !important;
+      color: #1e293b !important;
+    }
+    html.light header {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.light nav a, html.light #mobile-menu a {
+      color: #475569 !important;
+    }
+    html.light nav a:hover, html.light #mobile-menu a:hover {
+      color: #059669 !important;
+    }
+    html.light .bg-brand-dark {
+      background-color: #ffffff !important;
+    }
+    html.light .bg-brand-dark\/55, html.light .bg-brand-dark\/50, html.light .bg-brand-dark\/80 {
+      background-color: #ffffff !important;
+    }
+    html.light .bg-brand-base\/20, html.light .bg-brand-base\/30, html.light .bg-brand-base\/40 {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.light .text-slate-100, html.light .text-slate-300, html.light .text-slate-400 {
+      color: #334155 !important;
+    }
+    html.light .border-brand-light\/20, html.light .border-brand-light\/40, html.light .border-emerald-900\/50 {
+      border-color: #cbd5e1 !important;
+    }
+  </style>
+
+  <!-- Script Inline para Evitar Piscar o Tema -->
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light');
+    }
+  </script>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-emerald-400 selection:text-brand-dark overflow-x-hidden transition-colors duration-300">
+
+  <!-- Efeitos de Brilho de Fundo -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-emerald-900/20 rounded-full blur-[150px]"></div>
+    <div class="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-brand-base/30 rounded-full blur-[150px]"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-emerald-900/50 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Logo RUNEfiscal -->
+      <a href="../index.html" class="flex items-center gap-2.5 text-2xl font-black tracking-tight group">
+        <div class="w-10 h-10 rounded-[12px] bg-[#10b981]/10 border border-[#10b981]/30 flex items-center justify-center text-[#10b981] shadow-lg shadow-emerald-900/30 group-hover:scale-105 group-hover:bg-[#10b981]/20 group-hover:border-[#10b981]/50 transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+            <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+            <path d="M12 16v-8"/>
+            <path d="M9.5 12h3a2 2 0 1 0 0-4h-1.5a2 2 0 1 1 0 4h1.5a2 2 0 1 1 0 4h-3"/>
+          </svg>
+        </div>
+        <span class="text-[#10b981] group-hover:text-emerald-300 transition-colors">RUNEfiscal</span>
+      </a>
+
+      <!-- Navegação Desktop -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#problema" class="hover:text-emerald-500 transition-colors">Por que usar?</a>
+        <a href="#funcionalidades" class="hover:text-emerald-500 transition-colors">Módulos (CT-e/MDF-e)</a>
+        <a href="../index.html" class="flex items-center gap-1.5 text-emerald-500 hover:text-emerald-400 transition-colors">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início
+        </a>
+      </nav>
+
+      <!-- Botões de Ação & Alternar Tema (Desktop) -->
+      <div class="hidden md:flex items-center gap-3">
+        <button id="theme-toggle" class="p-2.5 rounded-xl bg-brand-base/40 border border-emerald-900/30 text-emerald-400 hover:bg-brand-base transition-all cursor-pointer shadow-sm" title="Alternar Modo Claro/Escuro">
+          <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
+        </button>
+
+        <a href="#contato" class="px-6 py-2.5 rounded-xl bg-emerald-500 text-brand-dark font-black hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]">
+          Solicitar Integração
+        </a>
+      </div>
+
+      <!-- Botões Mobile (Tema + Menu) -->
+      <div class="flex items-center gap-2 md:hidden">
+        <button id="theme-toggle-mobile" class="p-2 rounded-lg bg-brand-base/40 border border-emerald-900/30 text-emerald-400">
+          <i id="theme-icon-mobile" data-lucide="sun" class="w-5 h-5"></i>
+        </button>
+        <button id="menu-btn" class="text-slate-300 hover:text-white">
+          <i data-lucide="menu" class="w-7 h-7"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dropdown Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-base border-b border-emerald-950 px-6 py-4 flex flex-col gap-4 shadow-2xl">
+      <a href="#problema" class="text-slate-300 hover:text-white font-medium">Por que usar?</a>
+      <a href="#funcionalidades" class="text-slate-300 hover:text-white font-medium">Módulos (CT-e/MDF-e)</a>
+      <a href="../index.html" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início</a>
+      <a href="#contato" class="px-5 py-3 mt-2 rounded-xl bg-emerald-500 text-brand-dark font-bold text-center">Solicitar Integração</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="pt-40 pb-20 md:pt-48 md:pb-32 px-6 max-w-7xl mx-auto relative text-center">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400 font-bold tracking-wide uppercase mb-8">
+      <i data-lucide="check-circle-2" class="w-4 h-4"></i> 100% Homologado pela SEFAZ & ANTT
+    </div>
+    
+    <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] mb-8 max-w-4xl mx-auto">
+      A logística da sua empresa <span class="bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">não pode parar na balança.</span>
+    </h1>
+    
+    <p class="text-slate-300 text-lg md:text-xl font-light mb-10 max-w-3xl mx-auto leading-relaxed">
+      Emita CT-e, MDF-e e gere o CIOT em segundos, sem retrabalho. O RUNEfiscal automatiza a burocracia para que seus caminhões viagem legalizados, evitando multas e apreensões de carga.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#funcionalidades" class="px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-brand-dark font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+        Ver Funcionalidades <i data-lucide="chevron-down" class="w-5 h-5"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- SEÇÃO DA DOR / NECESSIDADE -->
+  <section id="problema" class="py-24 bg-brand-base/20 border-y border-brand-light/25 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6">Por que sua operação precisa do RUNEfiscal?</h2>
+        <p class="text-slate-400 font-light text-lg">Trabalhar com sistemas lentos do governo ou portais desatualizados custa caro. Entenda os riscos que eliminamos da sua rotina.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-8 rounded-3xl bg-brand-dark/50 border border-rose-900/50 relative overflow-hidden group hover:border-rose-500/50 transition-all">
+          <div class="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500 mb-6">
+            <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Multas e Apreensões</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Transitar sem o MDF-e válido ou sem o CIOT vinculado gera multas altíssimas nos postos fiscais e retenção do veículo, atrasando entregas.</p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-brand-dark/50 border border-amber-900/50 relative overflow-hidden group hover:border-amber-500/50 transition-all">
+          <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6">
+            <i data-lucide="keyboard" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Retrabalho Manual</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Digitar chaves de acesso de NF-e uma por uma para gerar o CT-e toma horas do seu time de faturamento. Erros de digitação geram rejeições na SEFAZ.</p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-brand-dark/50 border border-brand-light/30 relative overflow-hidden group hover:border-emerald-500/50 transition-all">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-6">
+            <i data-lucide="clock" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Lentidão na Liberação</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Motoristas parados no pátio esperando a emissão da documentação fiscal custam dinheiro. Cada minuto de atraso compromete a roteirização do dia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNCIONALIDADES DETALHADAS -->
+  <section id="funcionalidades" class="py-24 px-6 max-w-7xl mx-auto">
+    
+    <!-- CT-e -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
+      <div class="order-2 lg:order-1 relative h-[400px] w-full bg-brand-base/30 border border-brand-light/40 rounded-[2rem] flex flex-col items-center justify-center p-8 backdrop-blur-sm">
+        <i data-lucide="receipt" class="w-20 h-20 text-emerald-500/50 mb-4"></i>
+        <h4 class="text-slate-500 font-bold mb-2">Painel Emissor CT-e</h4>
+        <p class="text-slate-500 text-sm text-center max-w-xs">[ Mockup do sistema será inserido aqui ]</p>
+      </div>
+      <div class="order-1 lg:order-2">
+        <h3 class="text-4xl font-black mb-4">Conhecimento de Transporte (CT-e)</h3>
+        <p class="text-slate-300 text-lg font-light mb-6">O passaporte da sua carga. O RUNEfiscal importa automaticamente os XMLs das Notas Fiscais e calcula os impostos (ICMS) baseados nas regras tributárias do seu estado.</p>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Emissão em lote de múltiplos CT-es.</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Averbação automática de seguro de carga (AT&M e outros).</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Envio automático do DACTE e XML para o tomador do serviço.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MDF-e -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
+      <div>
+        <h3 class="text-4xl font-black mb-4">Manifesto Eletrônico (MDF-e)</h3>
+        <p class="text-slate-300 text-lg font-light mb-6">Para de sofrer com fiscalizações. Agrupe dezenas de CT-es ou NF-es num único documento que legaliza o trajeto do veículo do ponto A ao B.</p>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Leitura por código de barras para inclusão expressa.</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Encerramento automático de MDF-e ao finalizar a viagem.</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Gestão de frota, motoristas e RNTRC integrada.</li>
+        </ul>
+      </div>
+      <div class="relative h-[400px] w-full bg-brand-base/30 border border-brand-light/40 rounded-[2rem] flex flex-col items-center justify-center p-8 backdrop-blur-sm">
+        <i data-lucide="truck" class="w-20 h-20 text-emerald-500/50 mb-4"></i>
+        <h4 class="text-slate-500 font-bold mb-2">Painel Emissor MDF-e</h4>
+        <p class="text-slate-500 text-sm text-center max-w-xs">[ Mockup do sistema será inserido aqui ]</p>
+      </div>
+    </div>
+
+    <!-- CIOT -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="order-2 lg:order-1 relative h-[400px] w-full bg-brand-base/30 border border-brand-light/40 rounded-[2rem] flex flex-col items-center justify-center p-8 backdrop-blur-sm">
+        <i data-lucide="file-check-2" class="w-20 h-20 text-emerald-500/50 mb-4"></i>
+        <h4 class="text-slate-500 font-bold mb-2">Painel Gerador de CIOT</h4>
+        <p class="text-slate-500 text-sm text-center max-w-xs">[ Mockup do sistema será inserido aqui ]</p>
+      </div>
+      <div class="order-1 lg:order-2">
+        <h3 class="text-4xl font-black mb-4">Geração de CIOT</h3>
+        <p class="text-slate-300 text-lg font-light mb-6">O Código Identificador da Operação de Transportes é obrigatório para contratação de frete terceirizado (TAC). Não sofra com plataformas engessadas.</p>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Comunicação direta via API com as administradoras de frete (PEF).</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Geração de vale-pedágio obrigatório integrada.</li>
+          <li class="flex items-center gap-3 text-slate-300"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> CIOT impresso automaticamente junto ao MDF-e.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="contato" class="py-24 relative overflow-hidden bg-brand-base/40 border-t border-brand-light/20">
+    <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
+      <h2 class="text-4xl font-black mb-6">Pronto para blindar sua operação fiscal?</h2>
+      <p class="text-slate-300 text-lg mb-10 font-light">Implementamos o RUNEfiscal de forma independente ou 100% integrado ao seu ERP e ao sistema de rotas RUNElog.</p>
+      
+      <a href="https://wa.me/5573998546509" target="_blank" class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-brand-dark font-black text-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:-translate-y-1">
+        <i data-lucide="smartphone" class="w-6 h-6"></i> Falar com Especialista
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 bg-brand-dark text-slate-500 text-sm text-center border-t border-emerald-900/30 transition-colors duration-300">
+    <div class="flex items-center justify-center gap-2 mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-slate-500 opacity-60">
+        <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+        <path d="M12 16v-8"/>
+        <path d="M9.5 12h3a2 2 0 1 0 0-4h-1.5a2 2 0 1 1 0 4h1.5a2 2 0 1 1 0 4h-3"/>
+      </svg>
+      <span class="font-bold text-slate-400">RUNEfiscal</span>
+    </div>
+    <p>© 2026 RUNEbyte. Engenharia de Software desenvolvida por Genival Júnior.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Sincronização do Modo Claro/Escuro com Cache (localStorage)
+    const htmlElement = document.documentElement;
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+    function updateThemeIcons() {
+      const isLight = htmlElement.classList.contains('light');
+      const iconName = isLight ? 'moon' : 'sun';
+      if (themeIcon) themeIcon.setAttribute('data-lucide', iconName);
+      if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', iconName);
+      lucide.createIcons();
+    }
+
+    updateThemeIcons();
+
+    function toggleTheme() {
+      if (htmlElement.classList.contains('light')) {
+        htmlElement.classList.remove('light');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlElement.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      }
+      updateThemeIcons();
+    }
+
+    if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+
+    // Menu Mobile
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

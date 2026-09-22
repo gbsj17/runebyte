@@ -1,162 +1,575 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNElog | O Sistema Operacional da sua Logística</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .bg-gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #152e50 100%); }
-    </style>
+  <!-- TODO 01: CONFIGURAÇÕES E ESTILOS GLOBAIS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNEbyte | Desenvolvimento Web & Soluções Logísticas</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonte Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Configuração Avançada do Tailwind (Sua Paleta Exclusiva) -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // Habilita o modo escuro via classe 'dark' ou 'light'
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              dark: '#0a1424',    /* Fundo super escuro baseado no seu azul */
+              base: '#152e50',    /* SEU AZUL CORPORATIVO */
+              light: '#2a4a7f',   /* Azul mais claro para bordas e hover */
+              accent: '#f59e0b',  /* SEU ÂMBAR / DOURADO */
+              accentHover: '#d97706',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilização da Barra de Rolagem para visual premium */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--scroll-track, #0a1424); }
+    ::-webkit-scrollbar-thumb { background: var(--scroll-thumb, #152e50); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2a4a7f; }
+
+    /* Estilos dinâmicos para o Modo Claro */
+    html.light {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+    html.light body {
+      background-color: #f8fafc !important;
+      color: #1e293b !important;
+    }
+    html.light header {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border-color: #e2e8f0 !important;
+    }
+    html.light nav a, html.light #mobile-menu a {
+      color: #475569 !important;
+    }
+    html.light nav a:hover, html.light #mobile-menu a:hover {
+      color: #0f172a !important;
+    }
+    html.light .bg-brand-dark {
+      background-color: #ffffff !important;
+    }
+    html.light .bg-brand-dark\/50, html.light .bg-brand-dark\/80 {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+    }
+    html.light .bg-brand-base\/30, html.light .bg-brand-base\/40, html.light .bg-brand-base\/50, html.light .bg-brand-base\/20 {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.light .text-slate-100, html.light .text-slate-300, html.light .text-slate-400 {
+      color: #334155 !important;
+    }
+    html.light .border-brand-light\/35, html.light .border-brand-base\/50, html.light .border-brand-light\/30, html.light .border-brand-light\/40, html.light .border-brand-light\/20 {
+      border-color: #cbd5e1 !important;
+    }
+    html.light input, html.light select {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+  </style>
+
+  <!-- Script Inline para Evitar Piscar o Tema (Carrega antes do HTML renderizar) -->
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light');
+    }
+  </script>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden">
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-accent selection:text-brand-dark overflow-x-hidden transition-colors duration-300">
 
-    <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-route text-amber-500 text-2xl"></i>
-                <span class="font-black text-xl tracking-tight text-[#152e50]">RUNE<span class="text-amber-500">log</span></span>
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-600">
-                <a href="#funcionalidades" class="hover:text-amber-500 transition">Funcionalidades</a>
-                <a href="#demonstracao" class="hover:text-amber-500 transition">Demonstração</a>
-                <a href="#contato" class="hover:text-amber-500 transition">Contato</a>
-            </div>
-            <a href="#contato" class="px-5 py-2.5 bg-[#152e50] hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-blue-900/20">
-                Agendar Demonstração
+  <!-- Efeitos de Brilho de Fundo Globais -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-brand-base/40 rounded-full blur-[120px]"></div>
+    <div class="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px]"></div>
+  </div>
+
+  <!-- TODO 02: HEADER E NAVEGAÇÃO -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-brand-base/50 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Logo RUNEbyte USANDO SUA IMAGEM icon.png -->
+      <a href="#" class="flex items-center gap-2.5 text-2xl font-black tracking-tight group">
+        <img src="assets/images/icon.png" alt="Logo RUNEbyte" class="w-10 h-10 shadow-lg shadow-brand-base/30 group-hover:scale-105 transition-transform rounded-[14px]">
+        <span>RUNE<span class="text-brand-accent">byte</span></span>
+      </a>
+
+      <!-- Navegação Desktop -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#sobre" class="hover:text-white transition-colors">Sobre Nós</a>
+        
+        <a href="#runelog" class="flex items-center gap-1.5 text-brand-accent hover:text-amber-400 transition-colors">
+          <i data-lucide="route" class="w-4 h-4"></i> RUNElog
+        </a>
+        
+        <a href="#runefiscal" class="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4"></i> RUNEfiscal
+        </a>
+
+        <a href="#servicos" class="hover:text-white transition-colors">Fábrica de Software</a>
+      </nav>
+
+      <!-- Botões de Ação & Alternar Tema -->
+      <div class="hidden md:flex items-center gap-3">
+        <!-- Botão Modo Claro / Escuro -->
+        <button id="theme-toggle" class="p-2.5 rounded-xl bg-brand-base/40 border border-brand-light/30 text-brand-accent hover:bg-brand-base transition-all cursor-pointer shadow-sm" title="Alternar Modo Claro/Escuro">
+          <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
+        </button>
+
+        <a href="#contato" class="px-6 py-2.5 rounded-xl bg-brand-accent text-brand-dark font-black hover:bg-brand-accentHover transition-all shadow-md hover:shadow-lg hover:shadow-brand-accent/20">
+          Iniciar Projeto
+        </a>
+      </div>
+
+      <!-- Botão Menu Mobile & Alternar Tema Mobile -->
+      <div class="flex items-center gap-2 md:hidden">
+        <button id="theme-toggle-mobile" class="p-2 rounded-lg bg-brand-base/40 border border-brand-light/30 text-brand-accent">
+          <i id="theme-icon-mobile" data-lucide="sun" class="w-5 h-5"></i>
+        </button>
+        <button id="menu-btn" class="text-slate-300 hover:text-white">
+          <i data-lucide="menu" class="w-7 h-7"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dropdown Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-base border-b border-brand-light px-6 py-4 flex flex-col gap-4 shadow-2xl">
+      <a href="#sobre" class="text-slate-300 hover:text-white font-medium">Sobre Nós</a>
+      <a href="#runelog" class="text-brand-accent hover:text-amber-400 font-bold flex items-center gap-2"><i data-lucide="route" class="w-4 h-4"></i> RUNElog SaaS</a>
+      <a href="#runefiscal" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-2"><i data-lucide="receipt" class="w-4 h-4"></i> RUNEfiscal</a>
+      <a href="#servicos" class="text-slate-300 hover:text-white font-medium">Fábrica de Software</a>
+      <a href="#contato" class="px-5 py-3 mt-2 rounded-xl bg-brand-accent text-brand-dark font-bold text-center">Iniciar Projeto</a>
+    </div>
+  </header>
+
+  <!-- TODO 03: HERO SECTION (APRESENTAÇÃO) -->
+  <section id="sobre" class="pt-36 pb-20 md:pt-48 md:pb-32 px-6 max-w-7xl mx-auto relative">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-base/50 border border-brand-light/50 text-xs text-brand-accent font-bold tracking-wide uppercase mb-6">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Arquitetura de Software & Web
+        </div>
+        <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-[1.1] mb-6">
+          Codificando a <span class="bg-gradient-to-r from-brand-accent to-amber-200 bg-clip-text text-transparent">vantagem competitiva</span> do seu negócio.
+        </h1>
+        <p class="text-slate-300 text-lg mb-8 leading-relaxed font-light max-w-lg">
+          A RUNEbyte desenvolve plataformas SaaS, painéis logísticos e websites de alta conversão. Unimos engenharia robusta a um design construído para escalar.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#runelog" class="px-8 py-4 rounded-xl bg-brand-base hover:bg-brand-light border border-brand-light text-white font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-base/30">
+            Conhecer Ecossistema <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          </a>
+          <a href="#servicos" class="px-8 py-4 rounded-xl bg-transparent border border-slate-600 hover:border-slate-400 text-slate-200 font-bold transition-all flex items-center justify-center gap-2">
+            Criar meu Site
+          </a>
+        </div>
+      </div>
+
+      <!-- Ilustração Tech -->
+      <div class="relative lg:h-[500px] w-full rounded-2xl border border-brand-light/30 bg-brand-base/20 p-2 shadow-2xl flex items-center justify-center overflow-hidden group backdrop-blur-sm">
+        <div class="absolute inset-0 bg-gradient-to-tr from-brand-base/10 to-brand-accent/5 opacity-50"></div>
+        <i data-lucide="code" class="w-32 h-32 text-brand-light group-hover:scale-110 group-hover:text-brand-accent/40 transition-all duration-700"></i>
+        <p class="absolute bottom-6 left-6 text-xs font-mono text-brand-light">_runebyte_core_engine_v1.0.0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TODO 04: PRODUTO PRINCIPAL (RUNELOG) -->
+  <section id="runelog" class="py-24 relative overflow-hidden border-y border-brand-base/50 bg-brand-dark/50">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[150px] pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="flex flex-col items-center text-center mb-12">
+        <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-black tracking-widest uppercase mb-6">
+          <i data-lucide="rocket" class="w-4 h-4"></i> Plataforma Proprietária
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black mb-6">O Sistema Operacional da sua <span class="text-brand-accent">Logística</span>.</h2>
+        <p class="text-slate-300 max-w-2xl text-lg font-light mb-8">O nosso principal produto SaaS. Transforme planilhas caóticas em rotas lucrativas em menos de 2 minutos. Feito para distribuidoras e transportadoras.</p>
+        
+        <a href="runelog/runelog.html" class="px-8 py-4 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-brand-dark font-black transition-all flex items-center justify-center gap-2 shadow-xl shadow-brand-accent/20 hover:scale-105 transform duration-200">
+          Acessar Site do RUNElog <i data-lucide="external-link" class="w-5 h-5"></i>
+        </a>
+      </div>
+
+      <div class="bg-brand-base/40 border border-brand-light/30 rounded-3xl p-2 shadow-2xl backdrop-blur-md max-w-5xl mx-auto">
+        <div class="w-full h-64 md:h-[400px] bg-brand-dark rounded-2xl border border-brand-light/20 flex flex-col overflow-hidden relative group">
+          <div class="h-10 border-b border-brand-light/20 bg-brand-base/80 flex items-center px-4 gap-2">
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+            <div class="ml-4 px-3 py-1 text-[10px] font-mono bg-brand-dark text-slate-400 rounded border border-brand-light/30">app.runelog.com.br</div>
+          </div>
+          
+          <div class="flex-1 flex items-center justify-center bg-gradient-to-b from-brand-dark to-brand-base/20 relative overflow-hidden">
+             <a href="runelog.html" class="w-20 h-20 bg-brand-accent rounded-full flex items-center justify-center text-brand-dark text-3xl shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:scale-110 transition-all cursor-pointer z-20">
+              <i data-lucide="play" class="w-8 h-8 ml-1 fill-current"></i>
             </a>
+            <p class="absolute bottom-6 text-xs font-mono text-brand-light">[ Ambiente de Roteirização Integrado ]</p>
+          </div>
         </div>
-    </nav>
+      </div>
+    </div>
+  </section>
 
-    <!-- HERO SECTION (A Primeira Impressão) -->
-    <section class="bg-gradient-hero pt-32 pb-20 lg:pt-40 lg:pb-28 px-6 text-center relative overflow-hidden">
-        <!-- Elementos decorativos de fundo -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-            <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[100%] rounded-full bg-amber-400 blur-3xl"></div>
-        </div>
+  <!-- TODO 04.1: MÓDULO FISCAL (RUNEFISCAL) -->
+  <section id="runefiscal" class="py-24 relative overflow-hidden bg-brand-dark border-b border-brand-base/50">
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div class="max-w-4xl mx-auto relative z-10">
-            <span class="inline-block py-1 px-3 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 border border-amber-500/30">
-                Lançamento SaaS 2026
-            </span>
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-                Transforme gargalos logísticos em <span class="text-amber-400">rotas lucrativas.</span>
-            </h1>
-            <p class="text-lg text-slate-300 mb-10 max-w-2xl mx-auto font-light">
-                O RUNElog é a plataforma inteligente que conecta importação de planilhas, roteirização viária em tempo real e gestão de frota em um único painel rápido e intuitivo.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#demonstracao" class="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-[#152e50] font-black rounded-xl text-sm transition shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-play"></i> Ver o Sistema em Ação
-                </a>
-                <a href="#contato" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold rounded-xl text-sm transition flex items-center justify-center gap-2">
-                    Falar com o Desenvolvedor
-                </a>
-            </div>
-        </div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black tracking-widest uppercase mb-6">
+            <i data-lucide="shield-check" class="w-4 h-4"></i> Módulo Auxiliar
+          </div>
+          
+          <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+            Emissão Fiscal e de Transporte sem burocracia com <span class="text-emerald-400">RUNEfiscal</span>.
+          </h2>
+          
+          <p class="text-slate-300 text-lg font-light mb-8 leading-relaxed">
+            Diga adeus aos portais lentos do governo e planilhas confusas. O complemento perfeito para a sua logística, automatizando a emissão de documentos com segurança e validação em tempo real.
+          </p>
 
-        <!-- ESPAÇO PARA A IMAGEM DO SISTEMA (MOCKUP) -->
-        <div class="max-w-5xl mx-auto mt-16 relative z-10 group">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#152e50] to-transparent z-10 pointer-events-none rounded-2xl"></div>
-            <!-- SUBSTITUA O SRC PELA FOTO TELA DO SEU SISTEMA (ex: painel de rotas) -->
-            <div class="w-full h-64 md:h-[500px] bg-slate-800 rounded-2xl border-4 border-slate-700 shadow-2xl flex items-center justify-center overflow-hidden">
-                <p class="text-slate-500 font-mono text-sm">[ Insira aqui a imagem da tela principal do RUNElog ]</p>
-                <!-- <img src="sua-imagem-do-sistema.jpg" alt="Painel do Sistema" class="w-full h-full object-cover"> -->
-            </div>
-        </div>
-    </section>
+          <a href="runefiscal/runefiscal.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-brand-dark font-bold border border-emerald-500/30 hover:border-emerald-500 transition-all mb-12 group shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+            Acessar Site do RUNEfiscal <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
 
-    <!-- FUNCIONALIDADES (O que o sistema resolve) -->
-    <section id="funcionalidades" class="py-24 px-6 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black text-[#152e50] mb-4">Feito para acelerar sua operação</h2>
-                <p class="text-slate-500 max-w-2xl mx-auto">Tudo que uma transportadora ou distribuidora precisa para parar de perder tempo com processos manuais e planilhas confusas.</p>
+          <div class="space-y-8">
+            <div class="flex items-start gap-5 group">
+              <div class="w-14 h-14 rounded-2xl bg-brand-base border border-brand-light/50 flex items-center justify-center text-emerald-400 shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all">
+                <i data-lucide="receipt" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold mb-1.5">Conhecimento de Transporte (CT-e)</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Integração nativa que puxa os dados do faturamento para gerar e transmitir o CT-e para a SEFAZ em segundos.</p>
+              </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition-all duration-300 group">
-                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-file-excel"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">Leitura WinThor (XLSX)</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Importe suas planilhas brutas. O RUNElog mapeia colunas, limpa inconsistências e cria as cargas de forma 100% automatizada no navegador.</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="p-8 rounded-3xl bg-[#152e50] border border-[#152e50] shadow-xl transform md:-translate-y-4">
-                    <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Roteirização Inteligente</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">Arraste e solte cidades. O sistema calcula a melhor rota rodoviária (OSRM), plota no mapa interativo e divide os itens por ordem de entrega.</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition-all duration-300 group">
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-users-gear"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">Multi-Tenant (SaaS)</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Painéis isolados por empresa. O admin controla os módulos contratados, e a empresa gerencia seus próprios motoristas e acessos.</p>
-                </div>
+            <div class="flex items-start gap-5 group">
+              <div class="w-14 h-14 rounded-2xl bg-brand-base border border-brand-light/50 flex items-center justify-center text-emerald-400 shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all">
+                <i data-lucide="truck" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold mb-1.5">Manifesto Eletrônico (MDF-e)</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Agrupamento inteligente de notas e CT-es num único manifesto, pronto para as fiscalizações e pesagens.</p>
+              </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ÁREA DE VÍDEO / DEMO -->
-    <section id="demonstracao" class="py-24 px-6 bg-slate-900 text-white relative">
-        <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-black mb-6">Veja o RUNElog na prática</h2>
-            <p class="text-slate-400 mb-12 max-w-2xl mx-auto">Assista a uma rápida demonstração de como transformar uma planilha confusa em uma rota otimizada em menos de 2 minutos.</p>
+            <div class="flex items-start gap-5 group">
+              <div class="w-14 h-14 rounded-2xl bg-brand-base border border-brand-light/50 flex items-center justify-center text-emerald-400 shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all">
+                <i data-lucide="file-check-2" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold mb-1.5">Geração de CIOT Automática</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Comunicação direta com as administradoras de pagamento eletrônico de frete (PEF), garantindo conformidade ANTT.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative w-full h-[500px] lg:h-[700px] bg-brand-base/20 border-2 border-dashed border-brand-light/40 rounded-[2rem] flex flex-col items-center justify-center text-center p-8 group hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-500">
+          <div class="absolute top-4 left-4 right-4 flex gap-2">
+            <div class="w-3 h-3 rounded-full bg-slate-700 group-hover:bg-rose-400 transition-colors"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-700 group-hover:bg-amber-400 transition-colors"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-700 group-hover:bg-emerald-400 transition-colors"></div>
+          </div>
+
+          <div class="w-24 h-24 bg-brand-dark rounded-full border border-brand-light/50 flex items-center justify-center mb-6 text-slate-500 group-hover:text-emerald-400 transition-colors shadow-inner">
+            <i data-lucide="image" class="w-10 h-10"></i>
+          </div>
+          <h4 class="text-xl font-bold mb-3 tracking-wide">Interface RUNEfiscal</h4>
+          <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
+            Este espaço está reservado para a futura captura de tela (mockup) exibindo os painéis e o dashboard de gestão de CTe e MDFe.
+          </p>
+          
+          <div class="mt-8 px-6 py-2 rounded-lg bg-brand-dark border border-brand-light/30 text-xs font-mono text-emerald-500">
+            [ Em Desenvolvimento / Q3 2026 ]
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TODO 05: SERVIÇOS E FÁBRICA DE SOFTWARE -->
+  <section id="servicos" class="py-24 px-6 max-w-7xl mx-auto relative">
+    <div class="text-center max-w-3xl mx-auto mb-16 relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-base/50 border border-brand-light/50 text-xs text-brand-accent font-bold tracking-wide uppercase mb-6">
+        <i data-lucide="code-2" class="w-4 h-4"></i> Fábrica de Software
+      </div>
+      <h2 class="text-3xl font-black sm:text-5xl mb-4">Soluções Sob Medida.</h2>
+      <p class="text-slate-400 font-light text-lg">Desenvolvemos ferramentas personalizadas para resolver os gargalos específicos da sua operação. Escolha a solução e vamos construir juntos.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+      
+      <div class="p-8 rounded-3xl bg-brand-base/30 border border-brand-light/30 hover:border-cyan-500/50 transition-all flex flex-col group backdrop-blur-sm hover:-translate-y-1 shadow-lg">
+        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all mb-6">
+          <i data-lucide="layout-template" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+          RUNE<span class="text-cyan-400">web</span>
+        </h3>
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Criação de Sites</h4>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-1">Páginas modernas, ultrarrápidas e focadas em conversão. Destacamos sua empresa no Google e atraímos clientes qualificados direto para o seu WhatsApp.</p>
+        <a href="#contato" class="text-cyan-400 text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+          Solicitar Orçamento <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-brand-base/30 border border-brand-light/30 hover:border-emerald-500/50 transition-all flex flex-col group backdrop-blur-sm hover:-translate-y-1 shadow-lg">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all mb-6">
+          <i data-lucide="bot" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+          RUNE<span class="text-emerald-400">bot</span>
+        </h3>
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Agentes de IA no WhatsApp</h4>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-1">Atendimento automático 24/7 conectado ao seu ERP. Seu robô responde dúvidas técnicas, faz cotações e envia status de entregas sem intervenção humana.</p>
+        <a href="#contato" class="text-emerald-400 text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+          Desenvolver Chatbot <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-brand-base/30 border border-brand-light/30 hover:border-brand-accent/50 transition-all flex flex-col group backdrop-blur-sm hover:-translate-y-1 shadow-lg">
+        <div class="w-14 h-14 rounded-2xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-brand-dark transition-all mb-6">
+          <i data-lucide="cog" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+          RUNE<span class="text-brand-accent">auto</span>
+        </h3>
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Automação de Rotinas (RPA)</h4>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-1">Elimine processos manuais. Criamos scripts que conectam seu sistema interno (como WinThor) à nuvem, populando planilhas e disparando relatórios sozinhos.</p>
+        <a href="#contato" class="text-brand-accent text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+          Automatizar Processos <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-brand-base/30 border border-brand-light/30 hover:border-rose-500/50 transition-all flex flex-col group backdrop-blur-sm hover:-translate-y-1 shadow-lg">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-rose-500 group-hover:text-white transition-all mb-6">
+          <i data-lucide="file-scan" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+          RUNE<span class="text-rose-400">docs</span>
+        </h3>
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Processamento de Documentos</h4>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-1">O fim da digitação. Nossas automações leem PDFs e fotos de pedidos, extraindo itens, quantidades e auditando fretes (XML) direto para o faturamento.</p>
+        <a href="#contato" class="text-rose-400 text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+          Extrair Dados <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-brand-base/30 border border-brand-light/30 hover:border-indigo-400/50 transition-all flex flex-col group backdrop-blur-sm hover:-translate-y-1 shadow-lg md:col-span-2 lg:col-span-1">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-400/10 border border-indigo-400/30 text-indigo-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-indigo-400 group-hover:text-white transition-all mb-6">
+          <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+          RUNE<span class="text-indigo-400">dash</span>
+        </h3>
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Business Intelligence (BI)</h4>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-1">Seus dados transformados em lucro. Criamos painéis executivos sob medida para você acompanhar métricas de logística e vendas em tempo real no celular.</p>
+        <a href="#contato" class="text-indigo-400 text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+          Criar meu Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TODO 06: FORMULÁRIO DE CONTATO E LEADS -->
+  <section id="contato" class="py-24 px-6 relative overflow-hidden">
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-brand-base/40 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto rounded-3xl bg-brand-base/50 border border-brand-light/40 p-8 md:p-12 shadow-2xl relative z-10 backdrop-blur-lg">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-black mb-3">Pronto para digitalizar sua operação?</h2>
+        <p class="text-slate-300 text-sm">Fale diretamente com o desenvolvedor. Seja para assinar o RUNElog ou criar o site da sua empresa.</p>
+      </div>
+
+      <form id="formContatoSite" class="space-y-6">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">Seu Nome / Empresa</label>
+            <input type="text" name="nome" placeholder="Ex: João da Construção" required class="w-full bg-brand-dark/80 border border-brand-light/30 rounded-xl px-4 py-3.5 focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">Seu WhatsApp</label>
+            <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required class="w-full bg-brand-dark/80 border border-brand-light/30 rounded-xl px-4 py-3.5 focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all text-sm">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">No que podemos ajudar?</label>
+          <select name="assunto" class="w-full bg-brand-dark/80 border border-brand-light/30 rounded-xl px-4 py-3.5 focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all text-sm appearance-none cursor-pointer">
+            <option value="Quero conhecer o RUNElog (Logística)">Quero conhecer o RUNElog (Logística)</option>
+            <option value="Quero um Website para minha Loja/Empresa">Quero um Website para minha Loja/Empresa</option>
+            <option value="Preciso de um Sistema Sob Medida">Preciso de um Sistema Sob Medida</option>
+            <option value="Outro Assunto">Outro Assunto</option>
+          </select>
+        </div>
+
+        <button type="submit" id="btnEnviarForm" class="w-full py-4 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-brand-dark font-black text-base transition-all shadow-lg hover:shadow-brand-accent/20 flex items-center justify-center gap-2 cursor-pointer">
+          <span id="txtBtnForm">Enviar Mensagem</span>
+        </button>
+
+        <!-- TODO 06.1: BOTÕES DE ACESSO DIRETO (WHATSAPP E LINKEDIN) -->
+        <div class="mt-8 pt-8 border-t border-brand-light/20">
+          <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Ou fale diretamente comigo</p>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/5573998546509" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366] hover:text-white font-bold transition-all duration-300 shadow-[0_0_15px_rgba(37,211,102,0.1)] hover:shadow-[0_0_25px_rgba(37,211,102,0.4)] hover:-translate-y-1">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.012c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              WhatsApp
+            </a>
             
-            <!-- ESPAÇO PARA O VÍDEO -->
-            <div class="aspect-video bg-slate-800 rounded-3xl border border-slate-700 shadow-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
-                <!-- Ícone Play de placeholder -->
-                <div class="w-20 h-20 bg-amber-500 rounded-full flex items-center justify-center text-white text-3xl shadow-xl group-hover:scale-110 group-hover:bg-amber-400 transition-all z-20">
-                    <i class="fa-solid fa-play ml-2"></i>
-                </div>
-                <div class="absolute inset-0 bg-black/40 z-10 group-hover:bg-black/20 transition-all"></div>
-                <p class="absolute bottom-4 left-0 right-0 text-slate-500 font-mono text-xs z-0">[ Substitua por um Iframe do YouTube/Vimeo depois ]</p>
-                <!-- <iframe class="absolute inset-0 w-full h-full z-30" src="LINK_DO_SEU_VIDEO_AQUI" frameborder="0" allowfullscreen></iframe> -->
-            </div>
+            <a href="https://www.linkedin.com/in/genivalbsj17/" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl bg-[#0077b5]/10 border border-[#0077b5]/30 text-[#0077b5] hover:bg-[#0077b5] hover:text-white font-bold transition-all duration-300 shadow-[0_0_15px_rgba(0,119,181,0.1)] hover:shadow-[0_0_25px_rgba(0,119,181,0.4)] hover:-translate-y-1">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+          </div>
         </div>
-    </section>
+      </form>
+    </div>
+  </section>
 
-    <!-- CALL TO ACTION / SOBRE VOCÊ -->
-    <section id="contato" class="py-24 px-6 bg-amber-500 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10">
-            <!-- SUA FOTO (Placeholder) -->
-            <div class="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-200 rounded-full border-4 border-white shadow-lg overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=Genival+Junior&background=152e50&color=fff&size=200" alt="Sua Foto" class="w-full h-full object-cover">
-            </div>
-            
-            <div>
-                <h3 class="text-2xl font-black text-[#152e50] mb-2">Construído por quem vive a operação.</h3>
-                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
-                    Olá, sou Genival. Após anos atuando no faturamento e expedição de cargas, criei o RUNElog para resolver os problemas reais do chão de fábrica que softwares genéricos ignoram. Precisa de uma solução customizada para a sua transportadora?
-                </p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="https://www.linkedin.com/in/genivalbsj17/" target="_blank" class="px-6 py-2.5 bg-[#0077b5] hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition flex items-center gap-2">
-                        <i class="fa-brands fa-linkedin"></i> Conectar no LinkedIn
-                    </a>
-                    <a href="https://wa.me/5573998546509" target="_blank" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition flex items-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Falar no WhatsApp
-                    </a>
-                </div>
-            </div>
+  <!-- TODO 07: FOOTER -->
+  <footer class="py-12 border-t border-brand-light/20 bg-brand-dark text-slate-400 text-sm transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex flex-col items-center md:items-start gap-1">
+        <div class="flex items-center gap-2">
+          <img src="assets/images/icon.png" alt="Logo RUNEbyte" class="w-8 h-8 shadow-md rounded-[11px]">
+          <span class="font-black text-lg tracking-tight">RUNE<span class="text-brand-accent">byte</span></span>
         </div>
-    </section>
+        <span class="text-xs text-slate-500 mt-1">Engenharia de Software desenvolvida por Genival Júnior.</span>
+      </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#152e50] border-t border-slate-800 text-slate-400 py-8 text-center text-xs">
-        <p>&copy; 2026 RUNElog. Todos os direitos reservados. Desenvolvido por Genival B. Souza Junior.</p>
-    </footer>
+      <p class="text-xs text-slate-500">© 2026 RUNEbyte. Todos os direitos reservados.</p>
 
+      <div class="flex items-center gap-4">
+        <a href="https://www.linkedin.com/in/genivalbsj17/" target="_blank" class="w-10 h-10 rounded-full bg-brand-base border border-brand-light/30 flex items-center justify-center text-slate-400 hover:text-[#0077b5] hover:border-[#0077b5] transition-all duration-300 hover:-translate-y-1">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://wa.me/5573998546509" target="_blank" class="w-10 h-10 rounded-full bg-brand-base border border-brand-light/30 flex items-center justify-center text-slate-400 hover:text-[#25D366] hover:border-[#25D366] transition-all duration-300 hover:-translate-y-1">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.012c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TODO 08: SCRIPTS E LÓGICA DE INTERFACE -->
+  <script>
+    lucide.createIcons();
+
+    // Lógica do Modo Claro / Escuro com salvamento no Cache (localStorage)
+    const htmlElement = document.documentElement;
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+    function updateThemeIcons() {
+      const isLight = htmlElement.classList.contains('light');
+      const iconName = isLight ? 'moon' : 'sun';
+      if (themeIcon) themeIcon.setAttribute('data-lucide', iconName);
+      if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', iconName);
+      lucide.createIcons();
+    }
+
+    // Inicializa o ícone correto de acordo com o tema salvo
+    updateThemeIcons();
+
+    function toggleTheme() {
+      if (htmlElement.classList.contains('light')) {
+        htmlElement.classList.remove('light');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlElement.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      }
+      updateThemeIcons();
+    }
+
+    if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+
+    // Menu Mobile
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Envio do Formulário para o Google Sheets com Feedback Visual
+    const formContatoSite = document.getElementById('formContatoSite');
+    if (formContatoSite) {
+      formContatoSite.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const btn = document.getElementById('btnEnviarForm');
+        const txtBtn = document.getElementById('txtBtnForm');
+        
+        txtBtn.innerText = 'Enviando...';
+        btn.classList.add('opacity-70', 'cursor-not-allowed');
+        btn.disabled = true;
+
+        const formData = new FormData(formContatoSite);
+        const urlGoogleScript = "https://script.google.com/macros/s/AKfycbzXupzsqoRLnq9yy7gPrYNZXig3u6cMleoXZgOoYtHYE8j6yCbgqLe1VoVkJeA0Zywt/exec";
+
+        fetch(urlGoogleScript, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors' 
+        })
+        .then(() => {
+          txtBtn.innerText = 'Mensagem Enviada com Sucesso! ✓';
+          btn.classList.remove('bg-brand-accent', 'hover:bg-brand-accentHover');
+          btn.classList.add('bg-emerald-500', 'text-white');
+          
+          formContatoSite.reset(); 
+          
+          setTimeout(() => {
+            txtBtn.innerText = 'Enviar Mensagem';
+            btn.classList.remove('bg-emerald-500', 'text-white');
+            btn.classList.add('bg-brand-accent', 'hover:bg-brand-accentHover');
+            btn.classList.remove('opacity-70', 'cursor-not-allowed');
+            btn.disabled = false;
+          }, 4000);
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          alert('Erro ao enviar mensagem. Tente me chamar no WhatsApp diretamente.');
+          txtBtn.innerText = 'Enviar Mensagem';
+          btn.classList.remove('opacity-70', 'cursor-not-allowed');
+          btn.disabled = false;
+        });
+      });
+    }
+  </script>
 </body>
 </html>
