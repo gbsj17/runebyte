@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- TODO 01: CONFIGURAÇÕES, TAILWIND E ESTILOS GLOBAIS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNElog | O Sistema Operacional da sua Logística</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN (Idêntico ao index.html) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0a1424',
+                            base: '#152e50',
+                            light: '#2a4a7f',
+                            accent: '#f59e0b',
+                            accentHover: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+
+        /* MODO ESCURO */
+        html:not(.light) body {
+            background-color: #0a1424;
+            color: #f8fafc;
+        }
+        html:not(.light) .nav-theme {
+            background-color: rgba(10, 20, 36, 0.8);
+            border-color: rgba(30, 41, 59, 0.8);
+        }
+        html:not(.light) .nav-link {
+            color: #94a3b8;
+        }
+        html:not(.light) .nav-link:hover {
+            color: #f59e0b;
+        }
+        html:not(.light) .btn-back,
+        html:not(.light) .theme-toggle-btn {
+            background-color: rgba(21, 46, 80, 0.4);
+            border-color: rgba(42, 74, 127, 0.3);
+            color: #f59e0b;
+        }
+        html:not(.light) .btn-back:hover,
+        html:not(.light) .theme-toggle-btn:hover {
+            background-color: #152e50;
+            border-color: #f59e0b;
+        }
+
+        /* HERO NO ESCURO */
+        html:not(.light) .hero-section {
+            background: linear-gradient(135deg, #0a1424 0%, #152e50 100%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        html:not(.light) .hero-title {
+            color: #ffffff;
+        }
+        html:not(.light) .hero-desc {
+            color: #cbd5e1;
+        }
+        html:not(.light) .btn-secundario {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        html:not(.light) .btn-secundario:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* CARDS NO ESCURO - SENTIMENTOS */
+        html:not(.light) #sentimentos {
+            background-color: #0a1424;
+        }
+        html:not(.light) .card-feeling {
+            background-color: rgba(21, 46, 80, 0.25);
+            border-color: rgba(42, 74, 127, 0.3);
+        }
+        html:not(.light) .card-feeling h3 {
+            color: #f8fafc;
+        }
+        html:not(.light) .card-feeling p {
+            color: #94a3b8;
+        }
+
+        /* CARDS NO ESCURO - FUNCIONALIDADES */
+        html:not(.light) #funcionalidades {
+            background-color: #0a1424;
+        }
+        html:not(.light) .card-clean {
+            background-color: rgba(21, 46, 80, 0.25);
+            border-color: rgba(42, 74, 127, 0.3);
+        }
+        html:not(.light) .card-clean h3 {
+            color: #f8fafc;
+        }
+        html:not(.light) .card-clean p {
+            color: #94a3b8;
+        }
+
+        /* DEMO NO MODO ESCURO */
+        html:not(.light) #demonstracao {
+            background: linear-gradient(180deg, #0a1424 0%, #0f172a 50%, #152e50 100%) !important;
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        html:not(.light) #demonstracao h2 {
+            color: #ffffff;
+        }
+        html:not(.light) #demonstracao p {
+            color: #94a3b8;
+        }
+        html:not(.light) .demo-box {
+            background-color: #0f172a !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* =======================================================
+           MODO CLARO (Sincronizado com o index.html)
+           ======================================================= */
+        html.light body {
+            background-color: #f8fafc;
+            color: #152e50;
+        }
+        html.light .nav-theme {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-color: #e2e8f0;
+        }
+        html.light .nav-link {
+            color: #152e50;
+        }
+        html.light .nav-link:hover {
+            color: #2a4a7f;
+        }
+        html.light .btn-back,
+        html.light .theme-toggle-btn {
+            background-color: #ffffff;
+            border-color: #cbd5e1;
+            color: #f59e0b;
+        }
+        html.light .btn-back:hover,
+        html.light .theme-toggle-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        /* HERO NO MODO CLARO */
+        html.light .hero-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        html.light .hero-title {
+            color: #152e50 !important;
+        }
+        html.light .hero-desc {
+            color: #475569 !important;
+        }
+        html.light .btn-secundario {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #152e50 !important;
+        }
+        html.light .btn-secundario:hover {
+            background-color: #f1f5f9 !important;
+            border-color: #94a3b8 !important;
+            color: #0f172a !important;
+        }
+
+        /* CARDS NO CLARO - SENTIMENTOS */
+        html.light #sentimentos {
+            background-color: #ffffff;
+        }
+        html.light .card-feeling {
+            background-color: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        html.light .card-feeling h3 {
+            color: #152e50;
+        }
+        html.light .card-feeling p {
+            color: #475569;
+        }
+
+        /* CARDS NO CLARO - FUNCIONALIDADES */
+        html.light #funcionalidades {
+            background-color: #ffffff;
+        }
+        html.light .card-clean {
+            background-color: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        html.light .card-clean h3 {
+            color: #152e50;
+        }
+        html.light .card-clean p {
+            color: #475569;
+        }
+
+        /* DEMO NO MODO CLARO */
+        html.light #demonstracao {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light #demonstracao h2 {
+            color: #152e50;
+        }
+        html.light #demonstracao p {
+            color: #64748b;
+        }
+        html.light .demo-box {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        /* DROPDOWN MOBILE NO CLARO */
+        html.light #mobile-menu {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light #mobile-menu a {
+            color: #152e50 !important;
+        }
+        html.light #menu-btn {
+            color: #152e50 !important;
+        }
+    </style>
+
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    </script>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- TODO 02: NAVBAR E NAVEGAÇÃO -->
+    <header class="fixed top-0 left-0 right-0 z-50 nav-theme backdrop-blur-lg border-b transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+                <!-- Botão Voltar (Oculto no mobile com hidden, visível no desktop com md:inline-flex) -->
+                <a href="../index.html" class="btn-back hidden md:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border text-sm font-semibold transition shadow-sm" title="Voltar para a página inicial">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Voltar</span>
+                </a>
+
+                <!-- Logo com ícone e tipografia -->
+                <a href="../index.html" class="flex items-center gap-2.5 text-xl font-black tracking-tight">
+                    <i data-lucide="route" class="w-6 h-6 text-brand-accent"></i>
+                    <span class="text-[#152e50] dark:text-white">RUNE<span class="text-brand-accent">log</span></span>
+                </a>
+            </div>
+
+            <!-- Navegação Desktop -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="#sentimentos" class="nav-link transition-colors">Problemas & Soluções</a>
+                <a href="#funcionalidades" class="nav-link transition-colors">Funcionalidades</a>
+                <a href="#demonstracao" class="nav-link transition-colors">Demonstração</a>
+                <a href="#contato" class="nav-link transition-colors">Contato</a>
+            </nav>
+
+            <!-- Botões Direita Desktop -->
+            <div class="hidden md:flex items-center gap-3">
+                <!-- Alternador de Tema Idêntico ao index.html -->
+                <button id="theme-toggle" type="button" aria-label="Alternar tema" class="theme-toggle-btn w-10 h-10 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-sm" title="Alternar Modo Claro/Escuro">
+                    <i id="theme-icon-sun" data-lucide="sun" class="w-5 h-5 hidden"></i>
+                    <i id="theme-icon-moon" data-lucide="moon" class="w-5 h-5 hidden"></i>
+                </button>
+
+                <a href="#contato" class="px-6 py-2.5 rounded-xl bg-brand-accent text-brand-dark font-black hover:bg-brand-accentHover transition-all shadow-md hover:shadow-lg hover:shadow-brand-accent/20">
+                    Agendar Demonstração
+                </a>
+            </div>
+
+            <!-- Botão Menu Mobile & Alternar Tema Mobile -->
+            <div class="flex items-center gap-2 md:hidden">
+                <button id="theme-toggle-mobile" type="button" aria-label="Alternar tema" class="theme-toggle-btn w-10 h-10 rounded-xl border flex items-center justify-center transition-all cursor-pointer">
+                    <i id="theme-icon-sun-mob" data-lucide="sun" class="w-5 h-5 hidden"></i>
+                    <i id="theme-icon-moon-mob" data-lucide="moon" class="w-5 h-5 hidden"></i>
+                </button>
+                <button id="menu-btn" class="text-slate-300 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dropdown Mobile (Idêntico ao index.html) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-base border-b border-brand-light px-6 py-4 flex flex-col gap-4 shadow-2xl transition-colors">
+            <a href="../index.html" class="text-slate-300 hover:text-white font-medium flex items-center gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Início RUNEbyte
+            </a>
+            <a href="#sentimentos" class="text-slate-300 hover:text-white font-medium">Problemas & Soluções</a>
+            <a href="#funcionalidades" class="text-slate-300 hover:text-white font-medium">Funcionalidades</a>
+            <a href="#demonstracao" class="text-slate-300 hover:text-white font-medium">Demonstração</a>
+            <a href="#contato" class="px-5 py-3 mt-2 rounded-xl bg-brand-accent text-brand-dark font-bold text-center">Agendar Demonstração</a>
+        </div>
+    </header>
+
+    <!-- TODO 03: HERO SECTION (APRESENTAÇÃO PRINCIPAL) -->
+    <section class="hero-section pt-32 pb-20 lg:pt-40 lg:pb-28 px-6 text-center relative overflow-hidden transition-colors">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[100%] rounded-full bg-amber-400 blur-3xl"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-amber-500/15 text-amber-500 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 border border-amber-500/30">
+                Lançamento SaaS 2026
+            </span>
+            <h1 class="hero-title text-4xl md:text-6xl font-black leading-tight mb-6 tracking-tight transition-colors">
+                Transforme gargalos logísticos em <span class="text-amber-500">rotas lucrativas.</span>
+            </h1>
+            <p class="hero-desc text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed transition-colors">
+                O RUNElog é a plataforma inteligente que conecta importação de planilhas, roteirização viária em tempo real e gestão de frota em um único painel rápido e intuitivo.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+                <a href="#demonstracao" class="w-full sm:w-auto px-8 py-4 bg-amber-500 hover:bg-amber-400 text-[#152e50] font-black rounded-xl text-sm transition shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play text-xs"></i> Ver o Sistema em Ação
+                </a>
+                <a href="#contato" class="btn-secundario w-full sm:w-auto px-8 py-4 font-bold rounded-xl text-sm border transition shadow-sm flex items-center justify-center gap-2">
+                    Falar com o Desenvolvedor
+                </a>
+            </div>
+        </div>
+
+        <!-- MOCKUP -->
+        <div class="max-w-5xl mx-auto mt-16 relative z-10 group">
+            <div class="w-full h-64 md:h-[500px] bg-slate-800 dark:bg-slate-900 rounded-2xl border-4 border-slate-300 dark:border-slate-700 shadow-2xl flex items-center justify-center overflow-hidden">
+                <p class="text-slate-400 font-mono text-sm">[ Insira aqui a imagem da tela principal do RUNElog ]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO 04: SEÇÃO "SABE AQUELE SENTIMENTO?" - PROBLEMAS vs SOLUÇÕES -->
+    <section id="sentimentos" class="py-24 px-6 transition-colors">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">Sabe aquele sentimento?</h2>
+                <p class="max-w-2xl mx-auto opacity-75">Você sabe exatamente quais são os problemas. O RUNElog foi criado para resolvê-los.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- COLUNA ESQUERDA: PROBLEMAS -->
+                <div class="space-y-6">
+                    <!-- Problema 1 -->
+                    <div class="card-feeling p-8 rounded-3xl border hover:shadow-xl hover:border-red-400/50 transition-all duration-300 group flex gap-4">
+                        <div class="w-12 h-12 bg-red-500/20 text-red-500 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold mb-2">Planejamento Manual</h3>
+                            <p class="text-sm leading-relaxed">Roteiros calculados na mão = erros, atrasos e combustível desperdiçado.</p>
+                        </div>
+                    </div>
+
+                    <!-- Problema 2 -->
+                    <div class="card-feeling p-8 rounded-3xl border hover:shadow-xl hover:border-red-400/50 transition-all duration-300 group flex gap-4">
+                        <div class="w-12 h-12 bg-red-500/20 text-red-500 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold mb-2">Controle Inexistente</h3>
+                            <p class="text-sm leading-relaxed">Não sabe onde está a frota, quantos itens foram entregues ou quanto gastou.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: SOLUÇÕES -->
+                <div class="space-y-6">
+                    <!-- Solução 1 -->
+                    <div class="card-feeling p-8 rounded-3xl border hover:shadow-xl hover:border-emerald-400/50 transition-all duration-300 group flex gap-4">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold mb-2">Solução RUNElog</h3>
+                            <p class="text-sm leading-relaxed">Roteirizador inteligente que calcula a melhor rota rodoviária em segundos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Solução 2 -->
+                    <div class="card-feeling p-8 rounded-3xl border hover:shadow-xl hover:border-emerald-400/50 transition-all duration-300 group flex gap-4">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold mb-2">Rastreamento Real</h3>
+                            <p class="text-sm leading-relaxed">Dashboard executivo com GPS, combustível, entrega e métricas financeiras.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO 05: FUNCIONALIDADES E BENEFÍCIOS -->
+    <section id="funcionalidades" class="py-24 px-6 transition-colors">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">Feito para acelerar sua operação</h2>
+                <p class="max-w-2xl mx-auto opacity-75">Tudo que uma transportadora ou distribuidora precisa para parar de perder tempo com processos manuais e planilhas confusas.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+                <!-- Card 1 -->
+                <div class="card-clean p-8 rounded-3xl border hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col h-full">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-file-excel"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Leitura WinThor (XLSX)</h3>
+                    <p class="text-sm leading-relaxed">Importe suas planilhas brutas. O RUNElog mapeia colunas, limpa inconsistências e cria as cargas de forma 100% automatizada no navegador.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-clean p-8 rounded-3xl border hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col h-full">
+                    <div class="w-14 h-14 bg-amber-500/20 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Roteirização Inteligente</h3>
+                    <p class="text-sm leading-relaxed">Arraste e solte cidades. O sistema calcula a melhor rota rodoviária (OSRM), plota no mapa interativo e divide os itens por ordem de entrega.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card-clean p-8 rounded-3xl border hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col h-full">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Multi-Tenant (SaaS)</h3>
+                    <p class="text-sm leading-relaxed">Painéis isolados por empresa. O admin controla os módulos contratados, e a empresa gerencia seus próprios motoristas e acessos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO 06: ÁREA DE VÍDEO / DEMONSTRAÇÃO -->
+    <section id="demonstracao" class="py-24 px-6 border-y transition-colors relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Pronto para otimizar sua frota?</h2>
+            <p class="mb-12 max-w-2xl mx-auto text-sm leading-relaxed">Uma demonstração rápida de 15 minutos te mostra exatamente como o RUNElog funciona na prática.</p>
+
+            <div class="demo-box aspect-video rounded-3xl border shadow-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                <div class="w-20 h-20 bg-amber-500 rounded-full flex items-center justify-center text-[#152e50] text-3xl shadow-xl group-hover:scale-110 group-hover:bg-amber-400 transition-all z-20">
+                    <i class="fa-solid fa-play ml-1.5"></i>
+                </div>
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all z-10"></div>
+                <p class="absolute bottom-4 left-0 right-0 text-slate-400 font-mono text-xs z-0">[ Substitua por um Iframe do YouTube/Vimeo depois ]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO 07: CALL TO ACTION / CONTATO -->
+    <section id="contato" class="py-24 px-6 bg-amber-500 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10 text-slate-800">
+            <div class="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-200 rounded-full border-4 border-white shadow-lg overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Genival+Junior&background=152e50&color=fff&size=200" alt="Sua Foto" class="w-full h-full object-cover">
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-black text-[#152e50] mb-2">Construído por quem vive a operação.</h3>
+                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                    Olá, sou Genival. Após anos atuando no faturamento e expedição de cargas, criei o RUNElog para resolver os problemas reais do chão de fábrica que softwares genéricos ignoram. Precisa de uma solução customizada para a sua transportadora?
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="https://www.linkedin.com/in/genivalbsj17/" target="_blank" class="px-6 py-2.5 bg-[#0077b5] hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition flex items-center gap-2">
+                        <i class="fa-brands fa-linkedin"></i> Conectar no LinkedIn
+                    </a>
+                    <a href="https://wa.me/5573998546509" target="_blank" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Falar no WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO 08: FOOTER -->
+    <footer class="bg-[#152e50] border-t border-slate-800 text-slate-400 py-8 text-center text-xs">
+        <p>&copy; 2026 RUNElog. Todos os direitos reservados. Desenvolvido por Genival B. Souza Junior.</p>
+    </footer>
+
+    <!-- TODO 09: SCRIPT DE SINCRONIZAÇÃO DO TEMA E MOBILE -->
+    <script>
+        // 1. Inicializa ícones Lucide
+        lucide.createIcons();
+
+        // 2. Sincronização e alternância do tema (idêntica ao index.html)
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+
+        function atualizarIconesTema(isDark) {
+            document.querySelectorAll('#theme-icon-sun, #theme-icon-sun-mob').forEach(el => {
+                el.classList.toggle('hidden', !isDark);
+            });
+            document.querySelectorAll('#theme-icon-moon, #theme-icon-moon-mob').forEach(el => {
+                el.classList.toggle('hidden', isDark);
+            });
+        }
+
+        function aplicarTema(tema) {
+            const isDark = tema === 'dark';
+            htmlElement.classList.toggle('dark', isDark);
+            htmlElement.classList.toggle('light', !isDark);
+            atualizarIconesTema(isDark);
+            localStorage.setItem('theme', tema);
+        }
+
+        const temaSalvo = localStorage.getItem('theme') || 'dark';
+        aplicarTema(temaSalvo);
+
+        function alternarTema() {
+            const isDark = htmlElement.classList.contains('dark') || !htmlElement.classList.contains('light');
+            aplicarTema(isDark ? 'light' : 'dark');
+        }
+
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', alternarTema);
+        if (themeToggleMobile) themeToggleMobile.addEventListener('click', alternarTema);
+
+        // 3. Controle do menu mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

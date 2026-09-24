@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNEbyte - Soluções Sob Medida</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Configuração Avançada do Tailwind (Exata do seu index.html) -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0a1424',    /* Fundo escuro */
+                            base: '#152e50',    /* Azul corporativo */
+                            light: '#2a4a7f',   /* Azul bordas/hover */
+                            accent: '#f59e0b',  /* Âmbar / Dourado */
+                            accentHover: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- SCRIPT DE PRÉ-CARREGAMENTO (O mesmo do seu index.html: lê o cache antes do render) -->
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style>
+        body { 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+        }
+        .esconder { display: none !important; }
+
+        /* Barra de rolagem */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a1424; }
+        ::-webkit-scrollbar-thumb { background: #152e50; border-radius: 4px; }
+
+        /* REGRAS DO MODO CLARO (Idênticas ao seu index.html) */
+        html.light {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+        }
+        html.light body {
+            background-color: #f8fafc !important;
+            color: #1e293b !important;
+        }
+        html.light header {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light .logo-texto {
+            color: #0f172a !important;
+        }
+        html.light .titulo-pagina {
+            color: #0f172a !important;
+        }
+        html.light .subtitulo-pagina {
+            color: #475569 !important;
+        }
+        html.light #detalhe-conteudo,
+        html.light .card-box {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+        }
+        html.light .card-titulo {
+            color: #0f172a !important;
+        }
+        html.light .card-descricao {
+            color: #475569 !important;
+        }
+        html.light .texto-detalhe-intro {
+            color: #334155 !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light .texto-beneficio {
+            color: #334155 !important;
+        }
+        html.light .btn-voltar {
+            background-color: #e2e8f0 !important;
+            color: #334155 !important;
+            border-color: #cbd5e1 !important;
+        }
+        html.light .btn-voltar:hover {
+            background-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-accent selection:text-brand-dark">
+
+    <!-- Efeitos de Brilho de Fundo Globais -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-brand-base/40 rounded-full blur-[120px]"></div>
+        <div class="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header class="border-b border-brand-light/30 sticky top-0 bg-brand-dark/80 backdrop-blur-md z-50 transition-colors">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/images/icon.png" alt="RUNEbyte Logo" class="w-8 h-8 object-contain">
+                <span class="logo-texto text-xl font-black text-white tracking-tight">RUNE<span class="text-brand-accent">byte</span></span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Botão Alternar Tema (Mesmo ID e lógica do index) -->
+                <button id="theme-toggle" class="p-2 text-slate-400 hover:text-brand-accent transition-colors cursor-pointer" title="Alternar Tema">
+                    <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
+                </button>
+                <a href="../index.html#contato" class="bg-brand-accent hover:bg-brand-accentHover text-brand-dark font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-brand-accent/20">
+                    Iniciar Projeto
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- TELA 1: GRELHA DE MÓDULOS -->
+    <main id="tela-grid" class="max-w-7xl mx-auto px-6 py-16 esconder">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h1 class="titulo-pagina text-4xl font-black text-white mb-4">Soluções da <span class="text-brand-accent">Fábrica de Software</span></h1>
+            <p class="subtitulo-pagina text-slate-400 text-lg">Selecione um dos nossos módulos abaixo para descobrir como podemos automatizar, escalar e modernizar a sua operação logística e comercial.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-cards">
+            <!-- Cards injetados via JS -->
+        </div>
+    </main>
+
+    <!-- TELA 2: DETALHES DO MÓDULO -->
+    <main id="tela-detalhe" class="max-w-4xl mx-auto px-6 py-12">
+        <a href="../index.html#servicos" class="btn-voltar mb-8 inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-white transition-colors bg-brand-base/40 border border-brand-light/40 px-4 py-2.5 rounded-xl cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar para Início
+        </a>
+
+        <div id="detalhe-conteudo" class="card-box bg-brand-base/30 rounded-3xl p-8 md:p-12 shadow-xl border border-brand-light/30 relative overflow-hidden transition-colors">
+            <!-- Conteúdo montado dinamicamente -->
+        </div>
+    </main>
+
+    <script>
+        // LÓGICA DO TEMA CLARO/ESCURO IDÊNTICA AO INDEX.HTML
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+
+        function updateThemeIcons() {
+            const isLight = htmlElement.classList.contains('light');
+            const iconName = isLight ? 'moon' : 'sun';
+            if (themeIcon) themeIcon.setAttribute('data-lucide', iconName);
+            lucide.createIcons();
+        }
+
+        function toggleTheme() {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            }
+            updateThemeIcons();
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+
+        // Base de Dados dos Módulos
+        const modulos = {
+            web: {
+                id: 'web',
+                nome: 'RUNE',
+                destaque: 'web',
+                corHtml: 'cyan-500',
+                corTexto: 'text-cyan-400',
+                corFundo: 'bg-cyan-500/10',
+                corBorda: 'border-cyan-500/30',
+                corBtn: 'bg-cyan-500 hover:bg-cyan-600 text-white',
+                icone: 'layout-template',
+                subtitulo: 'CRIAÇÃO DE SITES',
+                resumo: 'Páginas modernas, ultrarrápidas e focadas em conversão. Destacamos sua empresa no Google e atraímos clientes qualificados direto para o seu WhatsApp.',
+                detalheIntroducao: 'O RUNEweb é a nossa engenharia de software voltada para autoridade e tração digital. Desenvolvemos interfaces de altíssima performance para empresas de logística, distribuidores e transportadoras.',
+                beneficios: [
+                    'Carregamento instantâneo no navegador para zero taxa de desistência.',
+                    'Estruturação em SEO Técnico para colocar a sua marca no topo das buscas no Google.',
+                    'Layout 100% responsivo, adaptado com perfeição para computadores e smartphones.',
+                    'Integração direta com o seu canal de vendas via WhatsApp e rastreador de orçamentos.'
+                ],
+                chamada: 'Solicitar Orçamento Web'
+            },
+            bot: {
+                id: 'bot',
+                nome: 'RUNE',
+                destaque: 'bot',
+                corHtml: 'emerald-500',
+                corTexto: 'text-emerald-400',
+                corFundo: 'bg-emerald-500/10',
+                corBorda: 'border-emerald-500/30',
+                corBtn: 'bg-emerald-500 hover:bg-emerald-600 text-white',
+                icone: 'bot',
+                subtitulo: 'AGENTES DE IA NO WHATSAPP',
+                resumo: 'Atendimento automático 24/7 conectado ao seu ERP. Seu robô responde dúvidas técnicas, faz cotações e envia status de entregas sem intervenção humana.',
+                detalheIntroducao: 'Elimine filas e tempo de espera no suporte. O RUNEbot transforma o canal de atendimento no WhatsApp em uma central inteligente automatizada por Inteligência Artificial conectada ao seu negócio.',
+                beneficios: [
+                    'Atendimento simultâneo e ininterrupto 24 horas por dia, 7 dias por semana.',
+                    'Consulta automática de rastreamento e status da carga direto no ERP do cliente.',
+                    'Triagem de solicitações e disparo de cotações de frete parametrizadas.',
+                    'Redução drástica do custo operacional de atendimento e de retrabalho manual.'
+                ],
+                chamada: 'Desenvolver Meu Chatbot'
+            },
+            auto: {
+                id: 'auto',
+                nome: 'RUNE',
+                destaque: 'auto',
+                corHtml: 'amber-500',
+                corTexto: 'text-amber-400',
+                corFundo: 'bg-amber-500/10',
+                corBorda: 'border-amber-500/30',
+                corBtn: 'bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold',
+                icone: 'cog',
+                subtitulo: 'AUTOMAÇÃO DE ROTINAS (RPA)',
+                resumo: 'Elimine processos manuais. Criamos scripts que conectam seu sistema interno (como WinThor) à nuvem, populando planilhas e disparando relatórios sozinhos.',
+                detalheIntroducao: 'Robôs de automação de processos (RPA) desenvolvidos sob medida para executar tarefas repetitivas de backoffice com velocidade imbatível e precisão cirúrgica.',
+                beneficios: [
+                    'Conexão e extração automatizada de relatórios em sistemas legados ou ERPs como WinThor.',
+                    'Cruzamento automático de dados e geração de planilhas de gestão sem toque humano.',
+                    'Rotinas agendadas para execução em segundo plano ou durante a madrugada.',
+                    'Eliminação definitiva de falhas manuais e digitação duplicada de registros.'
+                ],
+                chamada: 'Automatizar Nossas Rotinas'
+            },
+            docs: {
+                id: 'docs',
+                nome: 'RUNE',
+                destaque: 'docs',
+                corHtml: 'rose-500',
+                corTexto: 'text-rose-400',
+                corFundo: 'bg-rose-500/10',
+                corBorda: 'border-rose-500/30',
+                corBtn: 'bg-rose-500 hover:bg-rose-600 text-white',
+                icone: 'file-scan',
+                subtitulo: 'PROCESSAMENTO DE DOCUMENTOS',
+                resumo: 'O fim da digitação. Nossas automações leem PDFs e fotos de pedidos, extraindo itens, quantidades e auditando fretes (XML) direto para o faturamento.',
+                detalheIntroducao: 'Mecanismos de OCR e Visão Computacional preparados para ler, auditar e organizar pedidos, tabelas e notas fiscais sem demandar digitação operacional.',
+                beneficios: [
+                    'Varredura rápida de múltiplos PDFs e comprovantes em lote.',
+                    'Auditoria automática de XMLs de NF-e e CT-e confrontando valores negociados.',
+                    'Extração estruturada de cabeçalhos, itens e valores para o banco de dados.',
+                    'Aceleração expressiva no fechamento do faturamento logístico.'
+                ],
+                chamada: 'Auditar Documentos Agora'
+            },
+            dash: {
+                id: 'dash',
+                nome: 'RUNE',
+                destaque: 'dash',
+                corHtml: 'indigo-400',
+                corTexto: 'text-indigo-400',
+                corFundo: 'bg-indigo-400/10',
+                corBorda: 'border-indigo-400/30',
+                corBtn: 'bg-indigo-500 hover:bg-indigo-600 text-white',
+                icone: 'bar-chart-3',
+                subtitulo: 'BUSINESS INTELLIGENCE (BI)',
+                resumo: 'Seus dados transformados em lucro. Criamos painéis executivos sob medida para você acompanhar métricas de logística e vendas em tempo real no celular.',
+                detalheIntroducao: 'Visão executiva em tempo real. Painéis interativos que convertem registros brutos de faturamento e quilometragem em indicadores claros para tomadas de decisão rápidas.',
+                beneficios: [
+                    'Dashboards acessíveis em qualquer dispositivo com gráficos dinâmicos.',
+                    'Controle detalhado de custo por quilômetro rodado e rentabilidade por caminhão ou rota.',
+                    'Acompanhamento de volume carregado, cubagem e metas de entrega diárias.',
+                    'Alertas inteligentes para gargalos financeiros e desvios operacionais.'
+                ],
+                chamada: 'Construir Nossos Dashboards'
+            },
+            track: {
+                id: 'track',
+                nome: 'RUNE',
+                destaque: 'track',
+                corHtml: 'purple-500',
+                corTexto: 'text-purple-400',
+                corFundo: 'bg-purple-500/10',
+                corBorda: 'border-purple-500/30',
+                corBtn: 'bg-purple-600 hover:bg-purple-700 text-white',
+                icone: 'smartphone',
+                subtitulo: 'COMPROVANTE DIGITAL DE ENTREGA',
+                resumo: 'Chega de canhotos perdidos. App mobile leve para o motorista tirar foto do canhoto, coletar assinatura do recebedor e confirmar a entrega na hora.',
+                detalheIntroducao: 'Solução mobile projetada para o chão de fábrica e estrada. Digitalização de canhotos com validação geográfica e assinatura na tela para liquidação imediata da carga.',
+                beneficios: [
+                    'Captura de imagem do canhoto direto pelo smartphone do motorista.',
+                    'Assinatura digital na tela pelo recebedor no ato da entrega.',
+                    'Confirmação com marcação de GPS e carimbo de data/hora automática.',
+                    'Liberação veloz do comprovante para o setor financeiro autorizar pagamentos.'
+                ],
+                chamada: 'Implementar o RUNEtrack'
+            }
+        };
+
+        // Renderização do Grid
+        function renderizarGrid() {
+            const container = document.getElementById('container-cards');
+            let html = '';
+
+            Object.values(modulos).forEach(mod => {
+                html += `
+                <div onclick="mostrarDetalhe('${mod.id}')" class="card-box p-8 rounded-3xl bg-brand-base/20 border border-brand-light/30 hover:border-${mod.corHtml} transition-all flex flex-col group cursor-pointer shadow-lg hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl ${mod.corFundo} border ${mod.corBorda} ${mod.corTexto} flex items-center justify-center mb-6">
+                        <i data-lucide="${mod.icone}" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="card-titulo text-xl font-bold text-white mb-2 flex items-center gap-2">
+                        ${mod.nome} <span class="${mod.corTexto}">${mod.destaque}</span>
+                    </h3>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">${mod.subtitulo}</h4>
+                    <p class="card-descricao text-slate-400 text-sm leading-relaxed mb-8 flex-1">${mod.resumo}</p>
+                    <div class="${mod.corTexto} text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Saiba mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('tela-detalhe').classList.add('esconder');
+            document.getElementById('tela-grid').classList.remove('esconder');
+            lucide.createIcons();
+        }
+
+        // Renderização dos Detalhes
+        function mostrarDetalhe(idModulo) {
+            const mod = modulos[idModulo];
+            const containerDetalhe = document.getElementById('detalhe-conteudo');
+
+            let beneficiosHtml = '';
+            mod.beneficios.forEach(ben => {
+                beneficiosHtml += `
+                <li class="flex items-start gap-3 mb-4">
+                    <div class="mt-1 min-w-[20px] ${mod.corTexto}"><i data-lucide="check-circle-2" class="w-5 h-5"></i></div>
+                    <span class="texto-beneficio text-slate-300 leading-relaxed font-normal text-base">${ben}</span>
+                </li>`;
+            });
+
+            containerDetalhe.innerHTML = `
+                <div class="absolute -top-24 -right-24 w-72 h-72 ${mod.corFundo} rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl ${mod.corFundo} border ${mod.corBorda} ${mod.corTexto} flex items-center justify-center">
+                            <i data-lucide="${mod.icone}" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h2 class="card-titulo text-3xl font-black text-white flex items-center gap-2">
+                                ${mod.nome} <span class="${mod.corTexto}">${mod.destaque}</span>
+                            </h2>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">${mod.subtitulo}</p>
+                        </div>
+                    </div>
+
+                    <p class="texto-detalhe-intro text-lg text-slate-300 leading-relaxed font-light mb-8 pb-8 border-b border-brand-light/30">
+                        ${mod.detalheIntroducao}
+                    </p>
+
+                    <h3 class="card-titulo text-xl font-bold text-white mb-6">Como isso acelera sua operação:</h3>
+                    <ul class="mb-10">
+                        ${beneficiosHtml}
+                    </ul>
+
+                    <a href="../index.html#contato" class="inline-flex items-center justify-center gap-2 ${mod.corBtn} font-bold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl">
+                        ${mod.chamada} <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            `;
+
+            document.getElementById('tela-grid').classList.add('esconder');
+            document.getElementById('tela-detalhe').classList.remove('esconder');
+            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Execução Inicial
+        updateThemeIcons();
+        const parametros = new URLSearchParams(window.location.search);
+        const moduloEscolhido = parametros.get('modulo');
+
+        if (moduloEscolhido && modulos[moduloEscolhido]) {
+            mostrarDetalhe(moduloEscolhido);
+        } else {
+            renderizarGrid();
+        }
+    </script>
+</body>
+</html>
