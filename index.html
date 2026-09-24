@@ -365,21 +365,19 @@
           </div>
 
           <div id="runefiscal-carousel" class="relative w-full h-full">
-            <div class="rf-slide absolute top-0 h-full flex items-center justify-center">
+            <div class="rf-slide absolute flex items-center justify-center">
               <img src="assets/images/mockup-cte escuro.png" alt="Painel RUNEfiscal - CT-e (modo escuro)" class="max-w-full max-h-full object-contain rounded-xl dark:block hidden">
               <img src="assets/images/mockup-cte claro.png" alt="Painel RUNEfiscal - CT-e (modo claro)" class="max-w-full max-h-full object-contain rounded-xl dark:hidden block">
             </div>
-            <div class="rf-slide absolute top-0 h-full flex items-center justify-center">
+            <div class="rf-slide absolute flex items-center justify-center">
               <img src="assets/images/mockup-mdfe escuro.png" alt="Painel RUNEfiscal - MDF-e (modo escuro)" class="max-w-full max-h-full object-contain rounded-xl dark:block hidden">
               <img src="assets/images/mockup-mdfe claro.png" alt="Painel RUNEfiscal - MDF-e (modo claro)" class="max-w-full max-h-full object-contain rounded-xl dark:hidden block">
             </div>
-            <div class="rf-slide absolute top-0 h-full flex items-center justify-center">
+            <div class="rf-slide absolute flex items-center justify-center">
               <img src="assets/images/mockup-ciot escuro.png" alt="Painel RUNEfiscal - CIOT (modo escuro)" class="max-w-full max-h-full object-contain rounded-xl dark:block hidden">
               <img src="assets/images/mockup-ciot claro.png" alt="Painel RUNEfiscal - CIOT (modo claro)" class="max-w-full max-h-full object-contain rounded-xl dark:hidden block">
             </div>
           </div>
-
-          <p class="absolute bottom-3 sm:bottom-6 text-[10px] sm:text-xs font-mono text-brand-light z-10">[ Prévia do Painel RUNEfiscal ]</p>
         </div>
 
       </div>
@@ -623,7 +621,7 @@
     }
 
     // 3.1 Carrossel automático dos mockups do RUNEfiscal
-    // Telas grandes (lg+): exibe 2 imagens lado a lado, trocando uma por vez, sem repetir.
+    // Telas grandes (lg+): exibe 2 imagens empilhadas na vertical, trocando uma por vez, sem repetir.
     // Telas médias/pequenas: exibe 1 imagem por vez, revezando entre as 3.
     const rfSlides = Array.from(document.querySelectorAll('#runefiscal-carousel .rf-slide'));
     const rfDots = document.querySelectorAll('#runefiscal-dots .rf-dot');
@@ -635,7 +633,9 @@
       let rfNextSlot = 0;
 
       rfSlides.forEach(slide => {
-        slide.style.transition = 'opacity 700ms ease, left 700ms ease, width 700ms ease';
+        slide.style.left = '0';
+        slide.style.width = '100%';
+        slide.style.transition = 'opacity 700ms ease, top 700ms ease, height 700ms ease';
       });
 
       function rfRender() {
@@ -644,24 +644,24 @@
         rfSlides.forEach((slide, i) => {
           if (isDesktop) {
             if (i === rfPair[0]) {
-              slide.style.left = '0';
-              slide.style.width = 'calc(50% - 8px)';
+              slide.style.top = '0';
+              slide.style.height = 'calc(50% - 8px)';
               slide.style.opacity = '1';
               slide.style.zIndex = '2';
             } else if (i === rfPair[1]) {
-              slide.style.left = 'calc(50% + 8px)';
-              slide.style.width = 'calc(50% - 8px)';
+              slide.style.top = 'calc(50% + 8px)';
+              slide.style.height = 'calc(50% - 8px)';
               slide.style.opacity = '1';
               slide.style.zIndex = '2';
             } else {
-              slide.style.left = '0';
-              slide.style.width = '100%';
+              slide.style.top = '0';
+              slide.style.height = '100%';
               slide.style.opacity = '0';
               slide.style.zIndex = '1';
             }
           } else {
-            slide.style.left = '0';
-            slide.style.width = '100%';
+            slide.style.top = '0';
+            slide.style.height = '100%';
             slide.style.opacity = (i === rfSingle) ? '1' : '0';
             slide.style.zIndex = (i === rfSingle) ? '2' : '1';
           }
