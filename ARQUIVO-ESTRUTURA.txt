@@ -1,0 +1,146 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║              RUNEbyte SITE - Estrutura Real do Projeto                        ║
+║                    Última atualização: 24 de Setembro de 2026                 ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+📦 runebyte-site/
+│
+├── 📄 DOCUMENTAÇÃO
+│   ├── README.md                          - Visão geral, arquitetura, débito técnico
+│   ├── CONTRIBUTING.md                    - Padrões de código e checklist
+│   ├── QUICKSTART.md                      - Onde mexer em cada coisa
+│   └── ARQUIVO-ESTRUTURA.txt              (este arquivo)
+│
+├── 📄 PÁGINAS HTML (4 arquivos, cada uma autossuficiente)
+│   ├── index.html                         (746 linhas) ⭐ Página principal
+│   ├── runelog/runelog.html               (552 linhas) - Módulo RUNElog
+│   ├── runefiscal/runefiscal.html         (469 linhas) - Módulo RUNEfiscal
+│   └── fab.software/detalhes-modulos.html (406 linhas) - Fábrica de Software
+│
+└── 📁 assets/
+    ├── images/
+    │   ├── icon.png                       (44 KB)  - Logo + favicon (todas as páginas)
+    │   ├── hero/
+    │   │   ├── runebyte-hero-dark.png     - Ilustração hero, modo escuro (PNG c/ alpha)
+    │   │   └── runebyte-hero-light.png    - Ilustração hero, modo claro (PNG c/ alpha)
+    │   ├── mockup-cte escuro.png          (144 KB)
+    │   ├── mockup-cte claro.png           (136 KB)
+    │   ├── mockup-mdfe escuro.png         (132 KB)
+    │   ├── mockup-mdfe claro.png          (124 KB)
+    │   ├── mockup-ciot escuro.png         (124 KB)
+    │   └── mockup-ciot claro.png          (120 KB)
+    ├── fonts/
+    │   └── Handel Gothic D Bold.otf       - ⚠️ não usada em nenhuma página atualmente
+    └── css/
+        └── style.css                      (62 linhas) - ⚠️ não referenciada por nenhum HTML
+
+Não existe pasta js/ nem css/global.css — todo CSS/JS relevante está inline
+dentro de cada .html (ver README.md > Débito Técnico Conhecido).
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 ESTATÍSTICAS DO PROJETO (linhas de código)
+
+HTML total:                  2.173 linhas
+    ├── index.html:            746 linhas (34%)
+    ├── runelog.html:          552 linhas (25%)
+    ├── runefiscal.html:       469 linhas (22%)
+    └── detalhes-modulos.html: 406 linhas (19%)
+
+CSS solto (não usado):         62 linhas (assets/css/style.css)
+
+Documentação:                 380 linhas (README + CONTRIBUTING + QUICKSTART)
+
+Total de arquivos versionados: ~20 (4 HTML + docs + assets)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 PONTOS-CHAVE DA ARQUITETURA ATUAL
+
+1. SEM BUILD STEP
+   └─ Abre qualquer .html direto no navegador, sem servidor
+
+2. TAILWIND VIA CDN (Play CDN), configurado inline
+   └─ Cada página tem seu próprio <script>tailwind.config = {...}</script>
+   └─ Paleta de marca (brand.dark/base/light/accent) repetida nas 4 páginas
+
+3. TEMA CLARO/ESCURO POR CLASSE (darkMode: 'class')
+   └─ Script inline no <head> evita flash de tema errado
+   └─ Botão de toggle + localStorage por página
+   └─ ⚠️ Chave inconsistente: 'theme' (3 páginas) vs 'runebyte-theme' (runefiscal.html)
+
+4. IMAGENS QUE TROCAM POR TEMA
+   └─ Padrão: dois <img>, um com dark:block hidden, outro com dark:hidden block
+
+5. CARROSSEL CUSTOMIZADO NO HERO (index.html)
+   └─ 2 imagens simultâneas empilhadas no desktop (≥1024px), trocando 1 por vez
+   └─ 1 imagem revezando no tablet/mobile
+   └─ Indicador de 3 pontos em verde-esmeralda
+   └─ JS puro, sem lib de carrossel
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 COMO USAR
+
+1. ABRIR NO NAVEGADOR
+   └─ Basta abrir index.html (sem servidor necessário)
+
+2. PERSONALIZAR CORES
+   └─ Edite o bloco tailwind.config nas 4 páginas (não há arquivo único)
+
+3. ADICIONAR PÁGINA NOVA
+   └─ Copie <head> + script de tema de uma página existente
+   └─ Ajuste caminhos relativos de assets/
+   └─ Sem duplicação: não existe, porque tudo já é duplicado por design atual
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ DÉBITO TÉCNICO CONHECIDO (ver README.md para detalhes)
+
+1. CSS/JS 100% duplicado entre as 4 páginas — mudança de tema/cor precisa ser
+   replicada manualmente em cada arquivo.
+2. Chave de localStorage do tema inconsistente entre runefiscal.html e as
+   outras 3 páginas — preferência de tema não persiste ao navegar entre elas.
+3. assets/css/style.css e a fonte Handel Gothic D estão órfãos (não
+   referenciados por nenhum HTML).
+4. Sem processo de build/minificação/compressão de imagem.
+
+Nenhum item é urgente; todos são candidatos a uma refatoração futura SE o
+usuário decidir que vale o tempo (ver conversa: decisão consciente de manter
+como está por enquanto).
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎨 PALETA DE CORES
+
+brand.dark:         #0a1424 (Fundo escuro)
+brand.base:         #152e50 (Azul corporativo)
+brand.light:        #2a4a7f (Azul bordas/hover)
+brand.accent:       #f59e0b (Dourado/âmbar - destaque)
+brand.accentHover:  #d97706
+emerald-400/500:    Verde (RUNEbot, RUNEfiscal, sucesso/confirmação)
+rose-400/500:       Rosa (RUNEdocs)
+indigo-400:         Índigo (RUNEdash)
+purple-500:         Roxo (módulo extra)
+cyan-400/500:       Ciano (módulo extra)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📞 ONDE PROCURAR DÚVIDAS
+
+Dúvida sobre estrutura/arquitetura geral?
+└─ Leia README.md
+
+Dúvida sobre "onde eu mexo pra fazer X"?
+└─ Leia QUICKSTART.md
+
+Dúvida sobre padrão de código ao contribuir?
+└─ Leia CONTRIBUTING.md
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Genival Júnior | RUNEbyte
+Documentação mantida por Claude a cada mudança estrutural relevante
+Licença: © 2026 RUNEbyte. Todos os direitos reservados.
+
+═══════════════════════════════════════════════════════════════════════════════
