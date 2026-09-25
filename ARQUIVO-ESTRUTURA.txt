@@ -67,7 +67,7 @@ Total de arquivos versionados: ~20 (4 HTML + docs + assets)
 3. TEMA CLARO/ESCURO POR CLASSE (darkMode: 'class')
    └─ Script inline no <head> evita flash de tema errado
    └─ Botão de toggle + localStorage por página
-   └─ ⚠️ Chave inconsistente: 'theme' (3 páginas) vs 'runebyte-theme' (runefiscal.html)
+   └─ Chave 'theme' unificada nas 4 páginas
 
 4. IMAGENS QUE TROCAM POR TEMA
    └─ Padrão: dois <img>, um com dark:block hidden, outro com dark:hidden block
@@ -99,11 +99,9 @@ Total de arquivos versionados: ~20 (4 HTML + docs + assets)
 
 1. CSS/JS 100% duplicado entre as 4 páginas — mudança de tema/cor precisa ser
    replicada manualmente em cada arquivo.
-2. Chave de localStorage do tema inconsistente entre runefiscal.html e as
-   outras 3 páginas — preferência de tema não persiste ao navegar entre elas.
-3. assets/css/style.css e a fonte Handel Gothic D estão órfãos (não
+2. assets/css/style.css e a fonte Handel Gothic D estão órfãos (não
    referenciados por nenhum HTML).
-4. Sem processo de build/minificação/compressão de imagem.
+3. Sem processo de build/minificação/compressão de imagem.
 
 Nenhum item é urgente; todos são candidatos a uma refatoração futura SE o
 usuário decidir que vale o tempo (ver conversa: decisão consciente de manter

@@ -65,7 +65,7 @@ function aplicarTema(tema) {
 **Regras:**
 - Nomes de variáveis/funções em português (é o padrão já estabelecido no código — `aplicarTema`, `alternarTema`, `temaSalvo`) — não misture inglês no meio.
 - Comentário curto (`// 3.1 Carrossel automático...`) antes de blocos de lógica não óbvia; não documente o que já é óbvio pelo nome da função.
-- **Sempre use a chave `localStorage` `'theme'`** para tema — nunca `'runebyte-theme'` (é o bug documentado no README; não o repita em código novo).
+- **Sempre use a chave `localStorage` `'theme'`** para tema — nunca `'runebyte-theme'` (era um bug real em `runefiscal.html`, já corrigido; não o reintroduza).
 
 ---
 

@@ -70,11 +70,7 @@ Mecanismo (repetido em cada página, com pequenas variações):
 2. Um botão `#theme-toggle` (desktop) e `#theme-toggle-mobile` chama uma função que faz `htmlElement.classList.toggle('dark'/'light', ...)` e salva no `localStorage`.
 3. Um bloco `<style>` no `<head>` com seletores `html.light .minha-classe { ... !important }` sobrescreve as cores para o modo claro (Tailwind `dark:`/`dark:hidden` cuida do resto via `darkMode: 'class'`).
 
-⚠️ **Chave de `localStorage` inconsistente** — problema conhecido:
-- `index.html`, `runelog.html`, `detalhes-modulos.html` usam a chave **`theme`**
-- `runefiscal.html` usa a chave **`runebyte-theme`**
-
-Resultado: escolher "modo claro" no index e depois entrar no RUNEfiscal reseta pra escuro (e vice-versa). Precisa unificar a chave nas 4 páginas para corrigir.
+As 4 páginas usam a mesma chave de `localStorage` (**`theme`**), então a preferência de modo claro/escuro persiste ao navegar entre elas. *(Corrigido em 2026-09-24 — `runefiscal.html` usava `runebyte-theme`; ver histórico do Git.)*
 
 ---
 
@@ -117,10 +113,9 @@ Lógica em `index.html`, procure por `// 3.1 Carrossel automático dos mockups d
 
 Coisas que funcionam, mas que valem revisão se o site crescer:
 
-1. **CSS/JS 100% duplicado entre as 4 páginas.** Tailwind config, overrides de modo claro e script de tema são copiados manualmente em cada arquivo. Corrigir um bug de tema exige lembrar de replicar em 4 lugares (já aconteceu — ver item 2).
-2. **Chave de tema inconsistente** entre `runefiscal.html` (`runebyte-theme`) e as outras 3 páginas (`theme`) — ver seção acima.
-3. **`assets/css/style.css` e a fonte `Handel Gothic D` não são usados** por nenhuma página atualmente (órfãos).
-4. Sem processo de build/minificação — aceitável no tamanho atual (4 páginas), mas não escala indefinidamente.
+1. **CSS/JS 100% duplicado entre as 4 páginas.** Tailwind config, overrides de modo claro e script de tema são copiados manualmente em cada arquivo. Corrigir um bug de tema exige lembrar de replicar em 4 lugares (já aconteceu — ver histórico do Git, chave de `localStorage` do tema).
+2. **`assets/css/style.css` e a fonte `Handel Gothic D` não são usados** por nenhuma página atualmente (órfãos).
+3. Sem processo de build/minificação — aceitável no tamanho atual (4 páginas), mas não escala indefinidamente.
 
 Nenhum desses é urgente, mas documentar evita "descobrir de novo" no futuro.
 

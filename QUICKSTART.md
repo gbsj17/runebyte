@@ -93,8 +93,6 @@ No console do navegador:
 document.documentElement.classList.toggle('light');
 ```
 
-Lembre que `runefiscal.html` usa uma chave de `localStorage` diferente das outras páginas (`runebyte-theme` vs `theme`) — o tema escolhido numa página pode não persistir ao navegar pra ela.
-
 ---
 
 ## 🐛 Troubleshooting
@@ -105,7 +103,7 @@ Lembre que `runefiscal.html` usa uma chave de `localStorage` diferente das outra
 
 **Carrossel do RUNEfiscal (hero do index.html) não gira** → confira se os 3 `.rf-slide` existem dentro de `#runefiscal-carousel` e se não há erro de JS impedindo o `setInterval`.
 
-**Tema não persiste entre páginas** → problema conhecido, ver `README.md`.
+**Tema não persiste entre páginas** → confira se a página está usando a chave `theme` no `localStorage` (as 4 páginas devem usar a mesma).
 
 ---
 

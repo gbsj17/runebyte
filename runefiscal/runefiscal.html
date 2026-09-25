@@ -98,7 +98,7 @@
 
   <!-- Script Inline para Evitar Piscar o Tema -->
   <script>
-    if (localStorage.getItem('runebyte-theme') === 'light') {
+    if (localStorage.getItem('theme') === 'light') {
       document.documentElement.classList.add('light');
     }
   </script>
@@ -425,7 +425,7 @@
       }
 
       if (save) {
-        localStorage.setItem('runebyte-theme', theme);
+        localStorage.setItem('theme', theme);
       }
 
       updateThemeIcons(isDark);
@@ -438,7 +438,7 @@
     }
 
     // Initialize theme from localStorage
-    const savedTheme = localStorage.getItem('runebyte-theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme, false);
 
     // Attach event listeners to all theme toggle buttons
