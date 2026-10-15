@@ -2,7 +2,7 @@
 
 ## 🎯 Contexto do Projeto
 
-Este é um site **estático, sem build, com CSS/JS duplicado por página** (ver `README.md > Débito Técnico Conhecido`). As regras abaixo são para manter consistência **dentro desse formato atual** — não pressupõem um CSS/JS compartilhado que ainda não existe.
+Este é um site **estático, com CSS de tema/JS duplicado por página** (ver `README.md > Débito Técnico Conhecido`). O único elemento compartilhado é o Tailwind: `tailwind.config.js` + `assets/css/tailwind.css` gerado por `npm run build:css`.
 
 ---
 
@@ -25,6 +25,8 @@ Este é um site **estático, sem build, com CSS/JS duplicado por página** (ver 
 **Regras:**
 - Use `brand-dark` / `brand-base` / `brand-light` / `brand-accent` em vez de hex direto quando a cor já existe na paleta.
 - Elementos que trocam de imagem por tema seguem o padrão `dark:block hidden` / `dark:hidden block` (ver README).
+- Escreva sempre a classe Tailwind completa (inclusive em strings JS) — nunca concatene (`hover:border-${cor}`): o build só gera classes que encontra literalmente nos arquivos.
+- Depois de adicionar/trocar classes Tailwind, rode `npm run build:css` e commite o `assets/css/tailwind.css` junto.
 - Ícones usam Lucide via `<i data-lucide="nome-do-icone">` — depois de adicionar um novo, `lucide.createIcons()` já roda no load de cada página, não precisa chamar de novo.
 
 ### CSS (light-mode overrides)
@@ -94,6 +96,7 @@ Checklist mental antes de considerar algo pronto:
 
 - [ ] Só a mudança pedida — sem refatoração "de brinde" não solicitada
 - [ ] Sem `console.log()` esquecido
+- [ ] Se usou classe Tailwind nova ou mexeu no `tailwind.config.js`: rodou `npm run build:css` e incluiu o `assets/css/tailwind.css` no commit
 - [ ] Mensagem de commit em inglês, no formato usado no histórico (`git log` pra ver o padrão), assinada com a linha de co-autoria do Claude
 - [ ] Se a mudança altera estrutura/arquitetura relevante (nova pasta, novo padrão, novo débito técnico), **atualize `README.md`, `QUICKSTART.md` e/ou `ARQUIVO-ESTRUTURA.txt`** no mesmo commit ou logo em seguida
 
@@ -101,7 +104,7 @@ Checklist mental antes de considerar algo pronto:
 
 ## 🎨 Alterando a Paleta de Cores
 
-Não existe "um só lugar" — edite o bloco `tailwind.config.theme.extend.colors.brand` nas 4 páginas (`index.html`, `runelog/runelog.html`, `runefiscal/runefiscal.html`, `fab.software/detalhes-modulos.html`). Ver `QUICKSTART.md` pra o snippet exato.
+Edite `theme.extend.colors.brand` em `tailwind.config.js` e rode `npm run build:css`. Ver `QUICKSTART.md` pra o snippet exato.
 
 ---
 
@@ -115,7 +118,7 @@ Não existe "um só lugar" — edite o bloco `tailwind.config.theme.extend.color
 
 ## 🎓 Princípio Geral
 
-> Este projeto prioriza simplicidade de deploy (sem build) sobre DRY perfeito. Isso é uma escolha consciente documentada no README, não um descuido — não proponha migrar pra um bundler/framework a menos que o usuário peça.
+> Este projeto prioriza simplicidade de deploy (HTML estático, CSS do Tailwind pré-gerado e versionado) sobre DRY perfeito. Isso é uma escolha consciente documentada no README, não um descuido — não proponha migrar pra um bundler/framework a menos que o usuário peça.
 
 ---
 

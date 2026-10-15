@@ -2,10 +2,10 @@
 
 ## 📋 Sobre este Projeto
 
-Site institucional da RUNEbyte: landing page principal + três micro-sites de produto (RUNElog, RUNEfiscal, Fábrica de Software). HTML estático, sem build tool, sem framework — cada página é autossuficiente e roda direto no navegador.
+Site institucional da RUNEbyte: landing page principal + três micro-sites de produto (RUNElog, RUNEfiscal, Fábrica de Software). HTML estático, sem framework — cada página roda direto no navegador. O único passo de build é gerar o CSS do Tailwind, e o resultado (`assets/css/tailwind.css`) fica versionado.
 
-- ✅ **Zero build step** — abre o `.html` direto, sem `npm install`
-- ✅ **Tailwind CSS via CDN** (Play CDN), configurado inline em cada página
+- ✅ **Abre o `.html` direto** — `npm install` só é necessário para regerar o CSS
+- ✅ **Tailwind CSS 3 compilado pelo CLI** — config única em `tailwind.config.js`, saída minificada em `assets/css/tailwind.css`
 - ✅ **Dark/Light mode** persistido em `localStorage`
 - ✅ **Ícones Lucide** via CDN, versão fixada (`lucide@0.460.0`) — ao atualizar, troque nas 4 páginas
 - ✅ **Mobile responsivo**
@@ -25,6 +25,11 @@ runebyte-site/
 ├── fab.software/
 │   └── detalhes-modulos.html         # Fábrica de Software (RUNEbot, RUNEauto, RUNEdocs, RUNEdash...)
 │
+├── package.json                      # Scripts npm build:css / watch:css (devDependency: tailwindcss 3)
+├── tailwind.config.js                # Config única do Tailwind: paleta brand, darkMode 'class', content
+├── src/
+│   └── tailwind.css                  # Entrada do Tailwind (@tailwind base/components/utilities)
+│
 └── assets/
     ├── images/
     │   ├── icon.png                  # Logo + favicon (todas as páginas)
@@ -35,16 +40,27 @@ runebyte-site/
     ├── fonts/
     │   └── Handel Gothic D Bold.otf   # Fonte extra — NÃO usada em nenhuma página no momento
     └── css/
+        ├── tailwind.css              # GERADO por `npm run build:css` — não editar à mão; versionado
         └── style.css                 # NÃO referenciado por nenhum HTML no momento
 ```
 
-Cada `.html` é independente: tem seu próprio `<script>tailwind.config = {...}</script>`, seu próprio `<style>` com os overrides de modo claro, e seu próprio script de toggle de tema/menu mobile no final do `<body>`. Não existe `css/global.css` nem pasta `js/` — se você editar uma cor ou um comportamento, precisa repetir a edição nas 4 páginas.
+Todas as páginas carregam o mesmo `assets/css/tailwind.css` (paleta e utilitários). Fora isso, cada `.html` é independente: tem seu próprio `<style>` com os overrides de modo claro e seu próprio script de toggle de tema/menu mobile no final do `<body>`. Não existe pasta `js/` — se você editar um override de tema ou um comportamento, precisa repetir a edição nas 4 páginas.
+
+### 🛠️ Build do CSS (Tailwind)
+
+```bash
+npm install          # uma vez
+npm run build:css    # gera assets/css/tailwind.css minificado
+npm run watch:css    # regenera a cada alteração enquanto você edita
+```
+
+O Tailwind só gera as classes que encontra escritas por inteiro nos `.html` (o `content` do `tailwind.config.js` varre as 4 páginas, incluindo strings dentro dos `<script>`). **Sempre que adicionar/trocar uma classe Tailwind, rode `npm run build:css` e commite o `tailwind.css` junto.** Nunca monte classes por concatenação (`hover:border-${cor}`) — escreva a classe completa (ex.: campo `corHover: 'hover:border-cyan-500'` em `detalhes-modulos.html`).
 
 ---
 
 ## 🎨 Paleta de Cores
 
-Definida via `tailwind.config.theme.extend.colors.brand` **em cada página**, com os mesmos valores:
+Definida em `tailwind.config.js` → `theme.extend.colors.brand`:
 
 ```js
 brand: {
@@ -58,7 +74,7 @@ brand: {
 
 Cores extras usadas pontualmente nos cards de módulo: `emerald` (RUNEbot/RUNEfiscal), `rose` (RUNEdocs), `indigo` (RUNEdash), `purple`, `cyan`.
 
-Para mudar uma cor da marca, edite o bloco `tailwind.config` nas **4 páginas** (não existe um só lugar — ver Débito Técnico).
+Para mudar uma cor da marca, edite `tailwind.config.js` e rode `npm run build:css`.
 
 ---
 
@@ -113,10 +129,10 @@ Lógica em `index.html`, procure por `// 3.1 Carrossel automático dos mockups d
 
 Coisas que funcionam, mas que valem revisão se o site crescer:
 
-1. **CSS/JS 100% duplicado entre as 4 páginas.** Tailwind config, overrides de modo claro e script de tema são copiados manualmente em cada arquivo. Corrigir um bug de tema exige lembrar de replicar em 4 lugares (já aconteceu — ver histórico do Git, chave de `localStorage` do tema).
+1. **CSS/JS de tema duplicado entre as 4 páginas.** Overrides de modo claro e script de tema são copiados manualmente em cada arquivo (a config do Tailwind já é única). Corrigir um bug de tema exige lembrar de replicar em 4 lugares (já aconteceu — ver histórico do Git, chave de `localStorage` do tema).
 2. **`assets/css/style.css` e a fonte `Handel Gothic D` não são usados** por nenhuma página atualmente (órfãos).
 3. **Modo claro:** cores de destaque (âmbar, esmeralda, etc.) são remapeadas para tons 700 via `html.light .text-*-400 { ... !important }` em cada página, para manter contraste WCAG AA. Ao usar uma cor nova de destaque, adicione o override.
-4. Sem processo de build/minificação (Tailwind Play CDN em produção) — aceitável no tamanho atual (4 páginas), mas não escala indefinidamente.
+4. O `assets/css/tailwind.css` é gerado e versionado à mão: esquecer de rodar `npm run build:css` depois de usar uma classe nova faz ela não ter estilo em produção.
 
 Nenhum desses é urgente, mas documentar evita "descobrir de novo" no futuro.
 
@@ -126,7 +142,7 @@ Nenhum desses é urgente, mas documentar evita "descobrir de novo" no futuro.
 
 - Repositório: [github.com/gbsj17/runebyte](https://github.com/gbsj17/runebyte), branch `main`.
 - Fluxo de trabalho: cada mudança concluída vira um commit (granular, não em lote); `push` só acontece quando pedido explicitamente.
-- Sem CI/CD configurado — é HTML estático, pode ser publicado direto (GitHub Pages, Netlify, qualquer servidor estático).
+- Sem CI/CD configurado — é HTML estático, pode ser publicado direto (GitHub Pages, Netlify, qualquer servidor estático). Como o `assets/css/tailwind.css` já vai commitado, o deploy não precisa rodar `npm`.
 
 ---
 

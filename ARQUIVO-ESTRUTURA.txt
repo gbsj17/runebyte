@@ -1,6 +1,6 @@
 ╔═══════════════════════════════════════════════════════════════════════════════╗
 ║              RUNEbyte SITE - Estrutura Real do Projeto                        ║
-║                    Última atualização: 24 de Setembro de 2026                 ║
+║                    Última atualização: 15 de Outubro de 2026                  ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 
 📦 runebyte-site/
@@ -17,6 +17,12 @@
 │   ├── runefiscal/runefiscal.html         (469 linhas) - Módulo RUNEfiscal
 │   └── fab.software/detalhes-modulos.html (406 linhas) - Fábrica de Software
 │
+├── ⚙️ BUILD DO CSS (Tailwind CLI 3)
+│   ├── package.json                       - Scripts build:css / watch:css
+│   ├── package-lock.json
+│   ├── tailwind.config.js                 - Config única: paleta brand, darkMode 'class'
+│   └── src/tailwind.css                   - Entrada (@tailwind base/components/utilities)
+│
 └── 📁 assets/
     ├── images/
     │   ├── icon.png                       (44 KB)  - Logo + favicon (todas as páginas)
@@ -32,10 +38,11 @@
     ├── fonts/
     │   └── Handel Gothic D Bold.otf       - ⚠️ não usada em nenhuma página atualmente
     └── css/
+        ├── tailwind.css                   - GERADO (npm run build:css), minificado, versionado
         └── style.css                      (62 linhas) - ⚠️ não referenciada por nenhum HTML
 
-Não existe pasta js/ nem css/global.css — todo CSS/JS relevante está inline
-dentro de cada .html (ver README.md > Débito Técnico Conhecido).
+Não existe pasta js/ — overrides de tema e JS ficam inline em cada .html
+(ver README.md > Débito Técnico Conhecido). node_modules/ é ignorado pelo Git.
 
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -57,12 +64,14 @@ Total de arquivos versionados: ~20 (4 HTML + docs + assets)
 
 🎯 PONTOS-CHAVE DA ARQUITETURA ATUAL
 
-1. SEM BUILD STEP
+1. SEM BUILD PARA DEPLOY
    └─ Abre qualquer .html direto no navegador, sem servidor
+   └─ O CSS do Tailwind já vai pré-gerado no repositório
 
-2. TAILWIND VIA CDN (Play CDN), configurado inline
-   └─ Cada página tem seu próprio <script>tailwind.config = {...}</script>
-   └─ Paleta de marca (brand.dark/base/light/accent) repetida nas 4 páginas
+2. TAILWIND COMPILADO PELO CLI (tailwindcss 3)
+   └─ Config única em tailwind.config.js (paleta brand.*, darkMode 'class')
+   └─ npm run build:css → assets/css/tailwind.css, linkado pelas 4 páginas
+   └─ Classes precisam estar escritas por inteiro (sem concatenar em JS)
 
 3. TEMA CLARO/ESCURO POR CLASSE (darkMode: 'class')
    └─ Script inline no <head> evita flash de tema errado
@@ -86,7 +95,8 @@ Total de arquivos versionados: ~20 (4 HTML + docs + assets)
    └─ Basta abrir index.html (sem servidor necessário)
 
 2. PERSONALIZAR CORES
-   └─ Edite o bloco tailwind.config nas 4 páginas (não há arquivo único)
+   └─ Edite tailwind.config.js e rode npm run build:css
+   └─ Mesmo vale ao usar qualquer classe Tailwind nova
 
 3. ADICIONAR PÁGINA NOVA
    └─ Copie <head> + script de tema de uma página existente
@@ -97,11 +107,12 @@ Total de arquivos versionados: ~20 (4 HTML + docs + assets)
 
 ⚠️ DÉBITO TÉCNICO CONHECIDO (ver README.md para detalhes)
 
-1. CSS/JS 100% duplicado entre as 4 páginas — mudança de tema/cor precisa ser
-   replicada manualmente em cada arquivo.
+1. Overrides de tema e JS duplicados entre as 4 páginas — mudança de tema
+   precisa ser replicada manualmente em cada arquivo.
 2. assets/css/style.css e a fonte Handel Gothic D estão órfãos (não
    referenciados por nenhum HTML).
-3. Sem processo de build/minificação/compressão de imagem.
+3. Sem compressão de imagem; tailwind.css precisa ser regerado à mão
+   (npm run build:css) a cada classe nova.
 
 Nenhum item é urgente; todos são candidatos a uma refatoração futura SE o
 usuário decidir que vale o tempo (ver conversa: decisão consciente de manter

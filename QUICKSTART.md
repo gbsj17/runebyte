@@ -1,6 +1,6 @@
 # 🚀 Quick Start — RUNEbyte Site
 
-Sem build, sem `npm install`. Abra e edite.
+Abra e edite. O único build é o CSS do Tailwind (`npm run build:css`), necessário só quando você muda classes Tailwind ou a paleta.
 
 ---
 
@@ -15,13 +15,24 @@ python -m http.server 8000
 # Acesse http://localhost:8000
 ```
 
+### Regerar o CSS do Tailwind
+
+Sempre que adicionar/trocar uma classe Tailwind em qualquer `.html` (ou mudar `tailwind.config.js`):
+
+```bash
+npm install          # só na primeira vez
+npm run build:css    # ou: npm run watch:css enquanto edita
+```
+
+Commite o `assets/css/tailwind.css` gerado junto com a mudança no HTML.
+
 ---
 
 ## 2️⃣ Onde mexer em cada coisa
 
 | Quero mudar...              | Onde                                                              |
 |------------------------------|--------------------------------------------------------------------|
-| Cor da marca                 | Bloco `tailwind.config` no `<head>` — **repita nas 4 páginas**     |
+| Cor da marca                 | `tailwind.config.js` + `npm run build:css`                          |
 | Texto/conteúdo do hero        | `index.html`, seção `<!-- Ilustração Tech -->` e acima             |
 | Cards de módulo (RUNEbot etc) | `index.html`, seção com `id="servicos"` (grid de cards)             |
 | Módulo RUNElog                | `runelog/runelog.html`                                              |
@@ -30,16 +41,16 @@ python -m http.server 8000
 | Imagens/mockups               | `assets/images/`                                                     |
 | Favicon                       | `assets/images/icon.png` (linkado via `<link rel="icon">` em cada página) |
 
-⚠️ **Não existe um CSS/JS central.** Se a mudança é visual (cor, espaçamento) ou de comportamento de tema, normalmente precisa repetir a edição nas 4 páginas — ver `README.md > Débito Técnico Conhecido`.
+⚠️ **Só o Tailwind é central.** Overrides de modo claro (`<style>`) e o script de tema ficam em cada página — mudanças nesses pontos normalmente precisam ser repetidas nas 4 páginas — ver `README.md > Débito Técnico Conhecido`.
 
 ---
 
 ## 3️⃣ Trocar as cores da marca
 
-Em cada um dos 4 arquivos `.html`, procure o bloco:
+Em `tailwind.config.js`:
 
 ```js
-tailwind.config = {
+module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
@@ -57,7 +68,7 @@ tailwind.config = {
 }
 ```
 
-Mude os valores hex — repita nas 4 páginas pra manter consistência.
+Mude os valores hex e rode `npm run build:css`.
 
 ---
 
@@ -70,13 +81,14 @@ Padrão usado em todo o site (mockups do RUNEfiscal, ilustração do hero):
 <img src="caminho/imagem-claro.png"  alt="..." class="... dark:hidden block">
 ```
 
-O `dark:` só funciona porque cada página tem `darkMode: 'class'` no `tailwind.config` e o script de tema adiciona/remove a classe `dark` no `<html>`.
+O `dark:` só funciona porque o `tailwind.config.js` tem `darkMode: 'class'` e o script de tema adiciona/remove a classe `dark` no `<html>`.
 
 ---
 
 ## 5️⃣ Adicionar uma página nova
 
-1. Copie a estrutura de `<head>` de uma página existente (Tailwind CDN + Lucide CDN + fonte Inter + `tailwind.config` com as cores da marca + script inline de pré-carregamento de tema).
+1. Copie a estrutura de `<head>` de uma página existente (`<link>` para `assets/css/tailwind.css` + Lucide CDN + fonte Inter + script inline de pré-carregamento de tema).
+   Se a página ficar fora de `runelog/`, `runefiscal/`, `fab.software/` ou da raiz, adicione o caminho ao `content` do `tailwind.config.js`; depois rode `npm run build:css`.
 2. Copie o script de tema/menu mobile do final do `<body>` de uma página parecida.
 3. Ajuste os caminhos relativos de `assets/` (a página nova provavelmente fica numa subpasta, então os caminhos levam `../assets/...`).
 4. Adicione o favicon: `<link rel="icon" type="image/png" href="../assets/images/icon.png">`.
@@ -96,6 +108,8 @@ document.documentElement.classList.toggle('light');
 ---
 
 ## 🐛 Troubleshooting
+
+**Classe Tailwind nova sem efeito** → rode `npm run build:css` (o CSS é pré-gerado, não compila no navegador) e confira se a classe está escrita por inteiro no HTML, não montada com `${...}`.
 
 **Ícones não aparecem** → `lucide.createIcons()` precisa rodar depois do HTML carregar; confira se não há erro de console travando o script.
 
