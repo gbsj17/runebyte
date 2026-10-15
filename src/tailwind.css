@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Âncoras: rolagem suave e alvo não fica escondido sob o header fixo (h-20 = 5rem) */
+html {
+  scroll-behavior: smooth;
+}
+[id] {
+  scroll-margin-top: 6rem;
+}
+
 /* Respeita "reduzir movimento" do sistema: desliga animações, transições e zooms de hover */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
