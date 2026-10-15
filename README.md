@@ -7,7 +7,7 @@ Site institucional da RUNEbyte: landing page principal + três micro-sites de pr
 - ✅ **Zero build step** — abre o `.html` direto, sem `npm install`
 - ✅ **Tailwind CSS via CDN** (Play CDN), configurado inline em cada página
 - ✅ **Dark/Light mode** persistido em `localStorage`
-- ✅ **Ícones Lucide** via CDN
+- ✅ **Ícones Lucide** via CDN, versão fixada (`lucide@0.460.0`) — ao atualizar, troque nas 4 páginas
 - ✅ **Mobile responsivo**
 - ⚠️ **Sem CSS/JS compartilhado** — ver seção "Débito Técnico Conhecido" abaixo
 
@@ -102,8 +102,8 @@ Lógica em `index.html`, procure por `// 3.1 Carrossel automático dos mockups d
 
 ## 📄 As 4 Páginas
 
-1. **`index.html`** — Hero com ilustração + CTA, seção "Conhecer Ecossistema", preview do RUNElog, preview/carrossel do RUNEfiscal, grid de módulos da Fábrica de Software (RUNEbot, RUNEauto, RUNEdocs, RUNEdash, RUNEweb, RUNEautomação), formulário de contato (envia pra Google Sheets via `fetch`), footer.
-2. **`runelog/runelog.html`** — Apresentação do módulo RUNElog (roteirização/logística), seção "sobre o desenvolvedor" com foto/avatar, CTAs de WhatsApp/LinkedIn.
+1. **`index.html`** — Hero com ilustração + CTA, seção "Conhecer Ecossistema", preview do RUNElog, preview/carrossel do RUNEfiscal, grid de módulos da Fábrica de Software (RUNEweb, RUNEbot, RUNEauto, RUNEdocs, RUNEdash, RUNEtrack), formulário de contato (envia pra Google Sheets via `fetch` em modo `no-cors` — a resposta é opaca, então o sucesso não é confirmável; tem honeypot anti-spam no campo `site` e aviso LGPD), footer.
+2. **`runelog/runelog.html`** — Apresentação do módulo RUNElog (roteirização/logística), seção "sobre o desenvolvedor" com avatar de iniciais (sem foto ainda), CTA de demonstração via WhatsApp, CTAs de WhatsApp/LinkedIn. Ainda não há screenshot/vídeo real do RUNElog.
 3. **`runefiscal/runefiscal.html`** — Apresentação do módulo RUNEfiscal, com galerias reais dos 3 sub-módulos (CT-e, MDF-e, CIOT), cada um com hover (`group-hover:scale-105`, borda emerald).
 4. **`fab.software/detalhes-modulos.html`** — Detalhes dos módulos avulsos da fábrica de software (automação, chatbot, docs, dashboards).
 
@@ -115,7 +115,8 @@ Coisas que funcionam, mas que valem revisão se o site crescer:
 
 1. **CSS/JS 100% duplicado entre as 4 páginas.** Tailwind config, overrides de modo claro e script de tema são copiados manualmente em cada arquivo. Corrigir um bug de tema exige lembrar de replicar em 4 lugares (já aconteceu — ver histórico do Git, chave de `localStorage` do tema).
 2. **`assets/css/style.css` e a fonte `Handel Gothic D` não são usados** por nenhuma página atualmente (órfãos).
-3. Sem processo de build/minificação — aceitável no tamanho atual (4 páginas), mas não escala indefinidamente.
+3. **Modo claro:** cores de destaque (âmbar, esmeralda, etc.) são remapeadas para tons 700 via `html.light .text-*-400 { ... !important }` em cada página, para manter contraste WCAG AA. Ao usar uma cor nova de destaque, adicione o override.
+4. Sem processo de build/minificação (Tailwind Play CDN em produção) — aceitável no tamanho atual (4 páginas), mas não escala indefinidamente.
 
 Nenhum desses é urgente, mas documentar evita "descobrir de novo" no futuro.
 
