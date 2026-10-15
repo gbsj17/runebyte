@@ -24,9 +24,16 @@
     
     <!-- SCRIPT DE PRÉ-CARREGAMENTO (O mesmo do seu index.html: lê o cache antes do render) -->
     <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light');
-        }
+        // Tema salvo pelo usuário ou, na primeira visita, a preferência do sistema.
+        // Aplica 'dark' ou 'light' no <html> antes do render para evitar o flash de tema/imagem errada.
+        (function () {
+            var tema = null;
+            try { tema = localStorage.getItem('theme'); } catch (e) {}
+            if (tema !== 'light' && tema !== 'dark') {
+                tema = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            }
+            document.documentElement.classList.add(tema);
+        })();
     </script>
 
     <style>
@@ -168,13 +175,10 @@
         }
 
         function toggleTheme() {
-            if (htmlElement.classList.contains('light')) {
-                htmlElement.classList.remove('light');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                htmlElement.classList.add('light');
-                localStorage.setItem('theme', 'light');
-            }
+            const novoTema = htmlElement.classList.contains('light') ? 'dark' : 'light';
+            htmlElement.classList.toggle('light', novoTema === 'light');
+            htmlElement.classList.toggle('dark', novoTema === 'dark');
+            try { localStorage.setItem('theme', novoTema); } catch (e) {}
             updateThemeIcons();
         }
 

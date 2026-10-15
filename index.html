@@ -160,9 +160,16 @@
 
   <!-- Script Inline para Evitar Piscar o Tema (Carrega antes do HTML renderizar) -->
   <script>
-    if (localStorage.getItem('theme') === 'light') {
-      document.documentElement.classList.add('light');
-    }
+    // Tema salvo pelo usuário ou, na primeira visita, a preferência do sistema.
+    // Aplica 'dark' ou 'light' no <html> antes do render para evitar o flash de tema/imagem errada.
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('theme'); } catch (e) {}
+      if (tema !== 'light' && tema !== 'dark') {
+        tema = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.classList.add(tema);
+    })();
   </script>
 </head>
 <body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-accent selection:text-brand-dark overflow-x-hidden transition-colors duration-300">
@@ -602,17 +609,16 @@
       });
     }
 
-    function aplicarTema(tema) {
+    function aplicarTema(tema, salvar = true) {
       const isDark = tema === 'dark';
       htmlElement.classList.toggle('dark', isDark);
       htmlElement.classList.toggle('light', !isDark);
       atualizarIconesTema(isDark);
-      localStorage.setItem('theme', tema);
+      if (salvar) { try { localStorage.setItem('theme', tema); } catch (e) {} }
     }
 
-    // Carrega o tema salvo em cache ou adota escuro como padrão
-    const temaSalvo = localStorage.getItem('theme') || 'dark';
-    aplicarTema(temaSalvo);
+    // Tema inicial já definido pelo script do <head> (salvo ou preferência do sistema); não grava até o usuário escolher
+    aplicarTema(htmlElement.classList.contains('light') ? 'light' : 'dark', false);
 
     function alternarTema() {
       const isDark = htmlElement.classList.contains('dark') || !htmlElement.classList.contains('light');
