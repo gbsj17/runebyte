@@ -18,8 +18,8 @@
   <meta name="twitter:card" content="summary">
   <link rel="icon" type="image/png" href="assets/images/icon.png">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS (gerado por "npm run build:css" a partir de tailwind.config.js) -->
+  <link rel="stylesheet" href="assets/css/tailwind.css">
   
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
@@ -27,27 +27,6 @@
   <!-- Fonte Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Configuração Avançada do Tailwind (Sua Paleta Exclusiva) -->
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: {
-              dark: '#0a1424',
-              base: '#152e50',
-              light: '#2a4a7f',
-              accent: '#f59e0b',
-              accentHover: '#d97706',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
     /* Estilização da Barra de Rolagem para visual premium */
     ::-webkit-scrollbar { width: 8px; }
