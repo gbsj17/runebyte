@@ -285,7 +285,7 @@
                     <i id="theme-icon-sun-mob" data-lucide="sun" class="w-5 h-5 hidden"></i>
                     <i id="theme-icon-moon-mob" data-lucide="moon" class="w-5 h-5 hidden"></i>
                 </button>
-                <button id="menu-btn" class="text-slate-300 hover:text-white p-1 cursor-pointer">
+                <button id="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu" class="text-slate-300 hover:text-white p-1 cursor-pointer">
                     <i data-lucide="menu" class="w-7 h-7"></i>
                 </button>
             </div>
@@ -518,14 +518,28 @@
         const mobileMenu = document.getElementById('mobile-menu');
 
         if (menuBtn && mobileMenu) {
+            function definirMenu(aberto) {
+                mobileMenu.classList.toggle('hidden', !aberto);
+                menuBtn.setAttribute('aria-expanded', String(aberto));
+                menuBtn.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+            }
+
             menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+                definirMenu(mobileMenu.classList.contains('hidden'));
+            });
+
+            // Esc fecha o menu e devolve o foco ao botão
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                    definirMenu(false);
+                    menuBtn.focus();
+                }
             });
 
             const mobileLinks = mobileMenu.querySelectorAll('a');
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
+                    definirMenu(false);
                 });
             });
         }
