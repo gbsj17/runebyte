@@ -721,8 +721,25 @@
       }
 
       rfRender();
-      setInterval(rfTick, 4000);
       rfDesktopQuery.addEventListener('change', rfRender);
+
+      // Auto-avanço: desligado com "reduzir movimento" do sistema, pausa no hover/foco e com a aba em segundo plano
+      const rfReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const rfContainer = document.getElementById('runefiscal-carousel').parentElement;
+      let rfTimer = null;
+      let rfPausado = false;
+
+      function rfAtualizarTimer() {
+        const deveRodar = !rfReducedMotion.matches && !rfPausado && !document.hidden;
+        if (deveRodar && !rfTimer) rfTimer = setInterval(rfTick, 4000);
+        if (!deveRodar && rfTimer) { clearInterval(rfTimer); rfTimer = null; }
+      }
+
+      ['mouseenter', 'focusin'].forEach(ev => rfContainer.addEventListener(ev, () => { rfPausado = true; rfAtualizarTimer(); }));
+      ['mouseleave', 'focusout'].forEach(ev => rfContainer.addEventListener(ev, () => { rfPausado = false; rfAtualizarTimer(); }));
+      document.addEventListener('visibilitychange', rfAtualizarTimer);
+      rfReducedMotion.addEventListener('change', rfAtualizarTimer);
+      rfAtualizarTimer();
     }
 
     // 3.2 Pré-seleção do assunto vindo de outras páginas (ex: ?assunto=...#contato)
