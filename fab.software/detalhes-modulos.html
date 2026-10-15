@@ -206,7 +206,7 @@
                 id: 'web',
                 nome: 'RUNE',
                 destaque: 'web',
-                corHtml: 'cyan-500',
+                corHover: 'hover:border-cyan-500',
                 corTexto: 'text-cyan-400',
                 corFundo: 'bg-cyan-500/10',
                 corBorda: 'border-cyan-500/30',
@@ -227,7 +227,7 @@
                 id: 'bot',
                 nome: 'RUNE',
                 destaque: 'bot',
-                corHtml: 'emerald-500',
+                corHover: 'hover:border-emerald-500',
                 corTexto: 'text-emerald-400',
                 corFundo: 'bg-emerald-500/10',
                 corBorda: 'border-emerald-500/30',
@@ -248,7 +248,7 @@
                 id: 'auto',
                 nome: 'RUNE',
                 destaque: 'auto',
-                corHtml: 'amber-500',
+                corHover: 'hover:border-amber-500',
                 corTexto: 'text-amber-400',
                 corFundo: 'bg-amber-500/10',
                 corBorda: 'border-amber-500/30',
@@ -269,7 +269,7 @@
                 id: 'docs',
                 nome: 'RUNE',
                 destaque: 'docs',
-                corHtml: 'rose-500',
+                corHover: 'hover:border-rose-500',
                 corTexto: 'text-rose-400',
                 corFundo: 'bg-rose-500/10',
                 corBorda: 'border-rose-500/30',
@@ -290,7 +290,7 @@
                 id: 'dash',
                 nome: 'RUNE',
                 destaque: 'dash',
-                corHtml: 'indigo-400',
+                corHover: 'hover:border-indigo-400',
                 corTexto: 'text-indigo-400',
                 corFundo: 'bg-indigo-400/10',
                 corBorda: 'border-indigo-400/30',
@@ -311,7 +311,7 @@
                 id: 'track',
                 nome: 'RUNE',
                 destaque: 'track',
-                corHtml: 'purple-500',
+                corHover: 'hover:border-purple-500',
                 corTexto: 'text-purple-400',
                 corFundo: 'bg-purple-500/10',
                 corBorda: 'border-purple-500/30',
@@ -337,7 +337,7 @@
 
             Object.values(modulos).forEach(mod => {
                 html += `
-                <div onclick="mostrarDetalhe('${mod.id}')" class="card-box p-8 rounded-3xl bg-brand-base/20 border border-brand-light/30 hover:border-${mod.corHtml} transition-all flex flex-col group cursor-pointer shadow-lg hover:-translate-y-1">
+                <div onclick="mostrarDetalhe('${mod.id}')" class="card-box p-8 rounded-3xl bg-brand-base/20 border border-brand-light/30 ${mod.corHover} transition-all flex flex-col group cursor-pointer shadow-lg hover:-translate-y-1">
                     <div class="w-14 h-14 rounded-2xl ${mod.corFundo} border ${mod.corBorda} ${mod.corTexto} flex items-center justify-center mb-6">
                         <i data-lucide="${mod.icone}" class="w-7 h-7"></i>
                     </div>
