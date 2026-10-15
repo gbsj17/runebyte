@@ -70,12 +70,21 @@
       color: #2a4a7f !important;
     }
 
-    /* Trava as cores originais do RUNElog e RUNEfiscal no modo claro */
+    /* Cores de destaque no modo claro: tons mais escuros para contraste WCAG AA (≥4.5:1) sobre fundo claro */
     html.light .text-brand-accent {
-      color: #f59e0b !important;
+      color: #b45309 !important;
     }
     html.light .text-emerald-400 {
-      color: #34d399 !important;
+      color: #047857 !important;
+    }
+    html.light .text-cyan-400 { color: #0e7490 !important; }
+    html.light .text-rose-400 { color: #be123c !important; }
+    html.light .text-indigo-400 { color: #4338ca !important; }
+    html.light .text-purple-400 { color: #7e22ce !important; }
+    html.light .text-slate-500 { color: #475569 !important; }
+    /* Gradiente do título do hero: amber-200 some sobre fundo claro */
+    html.light .from-brand-accent.to-amber-200 {
+      background-image: linear-gradient(to right, #b45309, #d97706) !important;
     }
     /* Permite que ícones com cor travada (acima) ainda fiquem brancos no hover do card */
     html.light .group:hover .group-hover\:text-white {
@@ -130,7 +139,7 @@
     html.light .btn-ecosystem-hero {
       background-color: #152e50 !important;
       border-color: #152e50 !important;
-      color: #f59e0b !important;
+      color: #fbbf24 !important;
     }
     html.light .btn-ecosystem-hero:hover {
       background-color: #2a4a7f !important;
