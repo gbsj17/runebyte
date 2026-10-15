@@ -39,7 +39,7 @@ Commite o `assets/css/tailwind.css` gerado junto com a mudança no HTML.
 | Módulo RUNEfiscal             | `runefiscal/runefiscal.html`                                        |
 | Detalhes da Fábrica de Software | `fab.software/detalhes-modulos.html`                              |
 | Imagens/mockups               | `assets/images/`                                                     |
-| Favicon                       | `assets/images/icon.png` (linkado via `<link rel="icon">` em cada página) |
+| Favicon                       | `assets/images/favicon-32.png` + `apple-touch-icon.png` (linkados no `<head>` de cada página) |
 
 ⚠️ **Só o Tailwind é central.** Overrides de modo claro (`<style>`) e o script de tema ficam em cada página — mudanças nesses pontos normalmente precisam ser repetidas nas 4 páginas — ver `README.md > Débito Técnico Conhecido`.
 
@@ -77,8 +77,8 @@ Mude os valores hex e rode `npm run build:css`.
 Padrão usado em todo o site (mockups do RUNEfiscal, ilustração do hero):
 
 ```html
-<img src="caminho/imagem-escuro.png" alt="..." class="... dark:block hidden">
-<img src="caminho/imagem-claro.png"  alt="..." class="... dark:hidden block">
+<img src="caminho/imagem-escuro.webp" width="..." height="..." loading="lazy" alt="..." class="... dark:block hidden">
+<img src="caminho/imagem-claro.webp"  width="..." height="..." loading="lazy" alt="..." class="... dark:hidden block">
 ```
 
 O `dark:` só funciona porque o `tailwind.config.js` tem `darkMode: 'class'` e o script de tema adiciona/remove a classe `dark` no `<html>`.
@@ -91,7 +91,7 @@ O `dark:` só funciona porque o `tailwind.config.js` tem `darkMode: 'class'` e o
    Se a página ficar fora de `runelog/`, `runefiscal/`, `fab.software/` ou da raiz, adicione o caminho ao `content` do `tailwind.config.js`; depois rode `npm run build:css`.
 2. Copie o script de tema/menu mobile do final do `<body>` de uma página parecida.
 3. Ajuste os caminhos relativos de `assets/` (a página nova provavelmente fica numa subpasta, então os caminhos levam `../assets/...`).
-4. Adicione o favicon: `<link rel="icon" type="image/png" href="../assets/images/icon.png">`.
+4. Adicione os favicons: `<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png">` e `<link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">`. Imagens novas: prefira WebP, nomes sem espaço, sempre com `width`/`height`.
 
 Não existe boilerplate/gerador automático — é copiar de uma página existente e adaptar.
 
@@ -115,7 +115,7 @@ document.documentElement.classList.toggle('light');
 
 **Imagem não troca de tema** → confira se o `<html>` realmente ganha a classe `dark`/`light` (inspecione no DevTools) e se a imagem tem as duas variantes com `dark:block hidden` / `dark:hidden block`.
 
-**Carrossel do RUNEfiscal (hero do index.html) não gira** → confira se os 3 `.rf-slide` existem dentro de `#runefiscal-carousel` e se não há erro de JS impedindo o `setInterval`.
+**Carrossel do RUNEfiscal (hero do index.html) não gira** → confira se os 3 `.rf-slide` existem dentro de `#runefiscal-carousel` e se não há erro de JS impedindo o `setInterval`. Ele também fica parado de propósito com o mouse em cima ou com "reduzir movimento" ativado no sistema.
 
 **Tema não persiste entre páginas** → confira se a página está usando a chave `theme` no `localStorage` (as 4 páginas devem usar a mesma).
 

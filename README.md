@@ -6,7 +6,7 @@ Site institucional da RUNEbyte: landing page principal + três micro-sites de pr
 
 - ✅ **Abre o `.html` direto** — `npm install` só é necessário para regerar o CSS
 - ✅ **Tailwind CSS 3 compilado pelo CLI** — config única em `tailwind.config.js`, saída minificada em `assets/css/tailwind.css`
-- ✅ **Dark/Light mode** persistido em `localStorage`
+- ✅ **Dark/Light mode** persistido em `localStorage` (1ª visita segue `prefers-color-scheme` do sistema)
 - ✅ **Ícones Lucide** via CDN, versão fixada (`lucide@0.460.0`) — ao atualizar, troque nas 4 páginas
 - ✅ **Mobile responsivo**
 - ⚠️ **Sem CSS/JS compartilhado** — ver seção "Débito Técnico Conhecido" abaixo
@@ -32,11 +32,13 @@ runebyte-site/
 │
 └── assets/
     ├── images/
-    │   ├── icon.png                  # Logo + favicon (todas as páginas)
+    │   ├── icon.png                  # Logo original 512px (fonte para gerar logo-96.webp / favicons)
+    │   ├── logo-96.webp              # Logo do header/footer
+    │   ├── favicon-32.png, apple-touch-icon.png  # Favicons
     │   ├── hero/
-    │   │   ├── runebyte-hero-dark.png    # Ilustração do hero (modo escuro, PNG com alpha)
-    │   │   └── runebyte-hero-light.png   # Ilustração do hero (modo claro, PNG com alpha)
-    │   └── mockup-{cte,mdfe,ciot} {claro,escuro}.png  # Screenshots dos painéis RUNEfiscal
+    │   │   ├── runebyte-hero-dark.webp   # Ilustração do hero (modo escuro, WebP com alpha)
+    │   │   └── runebyte-hero-light.webp  # Ilustração do hero (modo claro, WebP com alpha)
+    │   └── mockup-{cte,mdfe,ciot}-{claro,escuro}.webp  # Screenshots dos painéis RUNEfiscal
     ├── fonts/
     │   └── Handel Gothic D Bold.otf   # Fonte extra — NÃO usada em nenhuma página no momento
     └── css/
@@ -82,8 +84,8 @@ Para mudar uma cor da marca, edite `tailwind.config.js` e rode `npm run build:cs
 
 Mecanismo (repetido em cada página, com pequenas variações):
 
-1. Um `<script>` inline no `<head>` lê o `localStorage` e adiciona a classe `light` no `<html>` **antes** do resto renderizar (evita "flash" de tema errado).
-2. Um botão `#theme-toggle` (desktop) e `#theme-toggle-mobile` chama uma função que faz `htmlElement.classList.toggle('dark'/'light', ...)` e salva no `localStorage`.
+1. Um `<script>` inline no `<head>` lê o `localStorage` (ou, sem escolha salva, `prefers-color-scheme`) e adiciona a classe `dark` **ou** `light` no `<html>` **antes** do resto renderizar (evita "flash" de tema e de imagem `dark:`/`dark:hidden` errada).
+2. Um botão `#theme-toggle` (desktop) e `#theme-toggle-mobile` chama uma função que faz `htmlElement.classList.toggle('dark'/'light', ...)` e salva no `localStorage` — só quando o usuário clica; o tema inicial não é gravado.
 3. Um bloco `<style>` no `<head>` com seletores `html.light .minha-classe { ... !important }` sobrescreve as cores para o modo claro (Tailwind `dark:`/`dark:hidden` cuida do resto via `darkMode: 'class'`).
 
 As 4 páginas usam a mesma chave de `localStorage` (**`theme`**), então a preferência de modo claro/escuro persiste ao navegar entre elas. *(Corrigido em 2026-09-24 — `runefiscal.html` usava `runebyte-theme`; ver histórico do Git.)*
@@ -95,8 +97,8 @@ As 4 páginas usam a mesma chave de `localStorage` (**`theme`**), então a prefe
 Sempre que uma imagem muda entre os dois temas (mockups do RUNEfiscal, ilustração do hero), o padrão é dois `<img>` no mesmo lugar, um visível por vez via Tailwind:
 
 ```html
-<img src="imagem-escuro.png" class="... dark:block hidden">
-<img src="imagem-claro.png"  class="... dark:hidden block">
+<img src="imagem-escuro.webp" width="..." height="..." loading="lazy" class="... dark:block hidden">
+<img src="imagem-claro.webp"  width="..." height="..." loading="lazy" class="... dark:hidden block">
 ```
 
 Use esse padrão para qualquer imagem nova que precise variar por tema.
@@ -109,6 +111,7 @@ Na hero da página principal, a prévia do RUNEfiscal (`#runefiscal-carousel`) �
 
 - **Desktop (≥1024px):** mostra 2 mockups empilhados na vertical ao mesmo tempo; a cada 4s troca um dos dois pelo que não está em tela (nunca repete).
 - **Tablet/Mobile:** mostra 1 mockup por vez, revezando entre os 3.
+- Pausa no hover/foco, com a aba em segundo plano, e não gira com `prefers-reduced-motion`.
 - Indicador: os 3 pontinhos no canto (`#runefiscal-dots`) acendem em verde-esmeralda indicando qual(is) mockup(s) está(ão) em exibição.
 - Responsivo via `window.matchMedia('(min-width: 1024px)')`, sem CSS Grid — posicionamento via `style.top/height/opacity` direto em JS.
 

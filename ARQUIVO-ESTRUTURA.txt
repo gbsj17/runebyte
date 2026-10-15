@@ -25,16 +25,19 @@
 │
 └── 📁 assets/
     ├── images/
-    │   ├── icon.png                       (44 KB)  - Logo + favicon (todas as páginas)
+    │   ├── icon.png                       (42 KB)  - Original 512px do logo (fonte p/ gerar os demais; não referenciado)
+    │   ├── logo-96.webp                   (3 KB)   - Logo exibido no header/footer
+    │   ├── favicon-32.png                 (2 KB)   - Favicon (todas as páginas)
+    │   ├── apple-touch-icon.png           (20 KB)  - Ícone 180px p/ iOS
     │   ├── hero/
-    │   │   ├── runebyte-hero-dark.png     - Ilustração hero, modo escuro (PNG c/ alpha)
-    │   │   └── runebyte-hero-light.png    - Ilustração hero, modo claro (PNG c/ alpha)
-    │   ├── mockup-cte escuro.png          (144 KB)
-    │   ├── mockup-cte claro.png           (136 KB)
-    │   ├── mockup-mdfe escuro.png         (132 KB)
-    │   ├── mockup-mdfe claro.png          (124 KB)
-    │   ├── mockup-ciot escuro.png         (124 KB)
-    │   └── mockup-ciot claro.png          (120 KB)
+    │   │   ├── runebyte-hero-dark.webp    (44 KB)  - Ilustração hero, modo escuro (WebP c/ alpha)
+    │   │   └── runebyte-hero-light.webp   (53 KB)  - Ilustração hero, modo claro (WebP c/ alpha)
+    │   ├── mockup-cte-escuro.webp         (47 KB)
+    │   ├── mockup-cte-claro.webp          (56 KB)
+    │   ├── mockup-mdfe-escuro.webp        (46 KB)
+    │   ├── mockup-mdfe-claro.webp         (55 KB)
+    │   ├── mockup-ciot-escuro.webp        (43 KB)
+    │   └── mockup-ciot-claro.webp         (51 KB)
     ├── fonts/
     │   └── Handel Gothic D Bold.otf       - ⚠️ não usada em nenhuma página atualmente
     └── css/
