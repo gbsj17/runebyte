@@ -725,6 +725,13 @@
       rfDesktopQuery.addEventListener('change', rfRender);
     }
 
+    // 3.2 Pré-seleção do assunto vindo de outras páginas (ex: ?assunto=...#contato)
+    const assuntoUrl = new URLSearchParams(window.location.search).get('assunto');
+    const campoAssunto = document.getElementById('campo-assunto');
+    if (assuntoUrl && campoAssunto && Array.from(campoAssunto.options).some(o => o.value === assuntoUrl)) {
+      campoAssunto.value = assuntoUrl;
+    }
+
     // 4. Envio do Formulário para o Google Sheets com Feedback Visual
     const formContatoSite = document.getElementById('formContatoSite');
     if (formContatoSite) {
